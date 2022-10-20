@@ -9,7 +9,7 @@ export default function App() {
             <Global />
             <BrowserRouter>
                 <Routes>
-                    <Route path="/home" element={<Home />}/>
+                    <Route path="/timeline" element={<Home />}/>
                 </Routes>
             </BrowserRouter>
         </>

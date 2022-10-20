@@ -1,13 +1,24 @@
 import styled from "styled-components";
 import open from "../assets/images/Open.png";
 import oldman from "../assets/images/image 3.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { postPost, getPost } from "../services/Services";
 export default function Home() {
   const [url,setUrl] = useState("");
   const [post,setPost] = useState("");
   const [toggle,setToggle] = useState(false);
-
+  const [datas,setDatas] = useState([]);
+  const [att,setAtt] = useState(false);
+  
+  useEffect(() => {
+    getPost().catch((r) => {
+      console.log(r)
+    })
+    .then((r) => {
+      setDatas(r.data)
+    })
+  },[att])
+  
   function handlepost(e) {
     e.preventDefault(e);
     setToggle(!toggle);
@@ -20,14 +31,15 @@ export default function Home() {
       setPost("");
       setUrl("");
       setToggle(false);
+      setAtt(!att);
     })
     .catch((r) => {
       console.log(r);
       alert(`Houve um erro ao publicar seu link`);
-
+      setToggle(false);
     })
   }
-
+  
   return (
     <>
       <Father>
@@ -61,10 +73,41 @@ export default function Home() {
             </Div3>
           </form>
         </header>
+        {datas.map((value,index) => (<Posts key={index} message={value.message} link={value.link}/>))}
       </Mainline>
     </>
   );
 }
+
+function Posts({message,link}) {
+  return (
+    <Posting>      
+      <section>
+        <img src={oldman} alt=""/>
+        {message}
+        {link}
+      </section>
+    </Posting>
+  )
+
+
+
+}
+
+const Posting = styled.div`
+  display:flex;
+  flex-direction: column;
+  section {
+    display: flex;
+    flex-direction: row;
+    height: 209px;
+    background-color: #171717;
+    border-radius: 16px;
+    width: 80%;
+    margin-bottom: 29px;
+    color: #b7b7b7;
+  }
+`
 
 const Father = styled.div`
   display: flex;
@@ -130,6 +173,7 @@ const Mainline = styled.div`
     background-color: #ffffff;
     border-radius: 16px;
     width: 80%;
+    margin-bottom: 29px;
   }
   input {
     font-family: "Lato", sans-serif;
