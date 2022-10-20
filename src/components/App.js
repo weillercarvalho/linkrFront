@@ -1,7 +1,7 @@
 import { Global } from "./Global";
 import {Reset} from "styled-reset";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
+import Home from "./Home";
 export default function App() {
     return (
         <>
@@ -9,7 +9,7 @@ export default function App() {
             <Global />
             <BrowserRouter>
                 <Routes>
-                    <Route/>
+                    <Route path="/timeline" element={<Home />}/>
                 </Routes>
             </BrowserRouter>
         </>
