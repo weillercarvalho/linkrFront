@@ -1,7 +1,33 @@
 import styled from "styled-components";
 import open from "../assets/images/Open.png";
 import oldman from "../assets/images/image 3.png";
+import { useState } from "react";
+import { postPost, getPost } from "../services/Services";
 export default function Home() {
+  const [url,setUrl] = useState("");
+  const [post,setPost] = useState("");
+  const [toggle,setToggle] = useState(false);
+
+  function handlepost(e) {
+    e.preventDefault(e);
+    setToggle(!toggle);
+    const body = {
+      message: post,
+      link: url
+    };
+    postPost(body).then((r) => {
+      console.log(r);
+      setPost("");
+      setUrl("");
+      setToggle(false);
+    })
+    .catch((r) => {
+      console.log(r);
+      alert(`Houve um erro ao publicar seu link`);
+
+    })
+  }
+
   return (
     <>
       <Father>
@@ -23,14 +49,15 @@ export default function Home() {
           <Div1>
             <img src={oldman} alt="" />
           </Div1>
-          <form>
+          <form onSubmit={handlepost}>
             <Div2>
-              <input placeholder="Oi"></input>
-              <input placeholder="Oi"></input>
-              <input placeholder="Oi"></input>
+              <label htmlFor="url">What are you going to share today?</label>
+              {toggle ? <input id="url" type="url" name="url" value={url} onChange={(e) => setUrl(e.target.value)} placeholder="http://..." disabled></input> : <input id="url" type="url" name="url" value={url} onChange={(e) => setUrl(e.target.value)} placeholder="http://..." required></input>}
+              <label htmlFor="text"></label>
+              {toggle ? <input type="text" id="text" name="text" value={post} onChange={(e) => setPost(e.target.value)} placeholder="Awesome article about #javascript" disabled></input> : <input type="text" id="text" name="text" value={post} onChange={(e) => setPost(e.target.value)} placeholder="Awesome article about #javascript"></input>}
             </Div2>
             <Div3>
-              <button>Publish</button>
+              {toggle ? <button disabled>Publishing</button> : <button>Publish</button>}
             </Div3>
           </form>
         </header>
@@ -101,7 +128,7 @@ const Mainline = styled.div`
     flex-direction: row;
     height: 209px;
     background-color: #ffffff;
-    border-radius: 5px;
+    border-radius: 16px;
     width: 80%;
   }
   input {
@@ -109,10 +136,12 @@ const Mainline = styled.div`
     font-weight: 400;
     border: none;
     background-color: transparent;
+    font-size: 17px;
     ::placeholder {
       font-family: "Lato", sans-serif;
       font-weight: 400;
       color: #707070;
+      font-size: 15px;
     }
     margin: 20px 10px 10px 10px;
   }
@@ -121,12 +150,22 @@ const Mainline = styled.div`
     height: 31px;
     border-radius: 5px;
     background-color: #1877f2;
+    font-family: "Lato", sans-serif;
+    font-weight: 700;
+    color: #ffffff;
     &:hover {
       cursor: pointer;
     }
     img {
       size: 32px;
     }
+  }
+  label {
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    color: #707070;
+    margin: 10px;
   }
 `;
 const Div1 = styled.div`
