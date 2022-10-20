@@ -12,4 +12,9 @@ function getPost() {
   return promise;
 }
 
-export { postPost, getPost };
+function getPicture() {
+  const promise = axios.get(`${BASE_URL}/picture`);
+  return promise;
+}
+
+export { postPost, getPost, getPicture };
