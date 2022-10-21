@@ -24,7 +24,7 @@ export default function Login() {
       .post("http://localhost:5000/signin", body)
       .then((response) => {
         localStorage.setItem("token", response.data.token);
-        navigate("/Timeline");
+        navigate("/timeline");
       })
       .catch((error) => {
         alert(error.response.data.error);
@@ -61,7 +61,7 @@ export default function Login() {
 
             <Button type="submit">Log in</Button>
           </form>
-          <TxtCadastro onClick={() => navigate("/Registered")}>
+          <TxtCadastro onClick={() => navigate("/registered")}>
             First time? Create an account!
           </TxtCadastro>
         </BlockTwo>
