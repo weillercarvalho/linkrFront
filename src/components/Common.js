@@ -1,7 +1,7 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const Posting = styled.div`
-  display:flex;
+  display: flex;
   flex-direction: column;
   margin: auto;
   width: 100%;
@@ -18,7 +18,7 @@ const Posting = styled.div`
   img {
     margin: 15px;
     width: 50px;
-    height:50px;
+    height: 50px;
     border-radius: 50%;
     display: flex !important;
   }
@@ -32,21 +32,21 @@ const Posting = styled.div`
   div {
     height: 80px;
     border-radius: 15px;
-    font-family: "Lato", sans-serif !important;
+    font-family: 'Lato', sans-serif !important;
     font-weight: 400;
     font-size: 17px;
     margin-bottom: 10px;
     width: 100%;
   }
-  span{
-    font-family: "Lato", sans-serif !important;
+  span {
+    font-family: 'Lato', sans-serif !important;
     font-weight: 400;
     font-size: 17px;
     margin-bottom: 20px;
   }
-  p{
+  p {
     font-size: 18px !important;
-    font-family: "Lato", sans-serif !important;
+    font-family: 'Lato', sans-serif !important;
     font-weight: 400 !important;
   }
   @media (max-width: 375px) {
@@ -60,7 +60,7 @@ const Posting = styled.div`
       width: 15%;
     }
   }
-`
+`;
 
 const Father = styled.div`
   display: flex;
@@ -79,7 +79,7 @@ const Father = styled.div`
     z-index: 1;
   }
   p {
-    font-family: "Passion One", cursive;
+    font-family: 'Passion One', cursive;
     font-weight: 700;
     font-size: 49px;
     margin-left: 28px;
@@ -88,7 +88,7 @@ const Father = styled.div`
     display: flex;
   }
   button {
-    font-family: "Lato", sans-serif;
+    font-family: 'Lato', sans-serif;
     color: #ffffff;
     background-color: #151515;
     border-radius: 5px;
@@ -124,7 +124,7 @@ const Mainline = styled.div`
   margin: 150px auto auto auto;
   width: 100%;
   p {
-    font-family: "Oswald", sans-serif;
+    font-family: 'Oswald', sans-serif;
     font-weight: 700;
     font-size: 43px;
     color: #ffffff;
@@ -141,13 +141,13 @@ const Mainline = styled.div`
     width: 50%;
   }
   input {
-    font-family: "Lato", sans-serif;
+    font-family: 'Lato', sans-serif;
     font-weight: 400;
     border: none;
     background-color: transparent;
     font-size: 17px;
     ::placeholder {
-      font-family: "Lato", sans-serif;
+      font-family: 'Lato', sans-serif;
       font-weight: 400;
       color: #707070;
       font-size: 15px;
@@ -159,7 +159,7 @@ const Mainline = styled.div`
     height: 31px;
     border-radius: 5px;
     background-color: #1877f2;
-    font-family: "Lato", sans-serif;
+    font-family: 'Lato', sans-serif;
     font-weight: 700;
     color: #ffffff;
     margin-left: 120px;
@@ -173,33 +173,31 @@ const Mainline = styled.div`
     }
   }
   label {
-    font-family: "Lato", sans-serif;
+    font-family: 'Lato', sans-serif;
     font-weight: 400;
     font-size: 20px;
     color: #707070;
     margin: 10px;
   }
   @media (max-width: 375px) {
-    
     p {
       margin-left: 20px;
     }
     header {
       width: 100%;
-      
     }
     img {
       display: none;
     }
     button {
-        position: absolute;
-        left: 130px;
+      position: absolute;
+      left: 130px;
     }
     input {
       width: 50%;
     }
   }
-`
+`;
 const Div1 = styled.div`
   margin: 16px 18px auto 18px;
   img {
@@ -216,4 +214,4 @@ const Div3 = styled.div`
   margin-left: 550px;
 `;
 
-export {Father, Nav1, Nav2, Mainline, Div1, Div2, Div3, Posting};
+export { Father, Nav1, Nav2, Mainline, Div1, Div2, Div3, Posting };
