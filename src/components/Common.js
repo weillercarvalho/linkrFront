@@ -210,8 +210,147 @@ const Div2 = styled.div`
   display: flex;
   flex-direction: column;
 `;
+// const Div3 = styled.div`
+//   margin-left: 550px;
+// `;
+
 const Div3 = styled.div`
-  margin-left: 550px;
+  display: flex;
+  justify-content: flex-end;
+  width: calc(${({ horizontal }) => horizontal}px - 110px);
 `;
 
-export { Father, Nav1, Nav2, Mainline, Div1, Div2, Div3, Posting };
+const SearchParent = styled.div`
+  margin-top: 35px;
+  height: 100%;
+  position: relative;
+`;
+
+const SearchBar = styled.div`
+  width: 60vw;
+  height: 50%;
+  background-color: #ffffff;
+  color: black;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  border-bottom-left-radius: ${({ bottom }) => (bottom ? 8 : 0)}px;
+  border-bottom-right-radius: ${({ bottom }) => (bottom ? 8 : 0)}px;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 10px 5px 10px;
+
+  div {
+  }
+
+  input {
+    width: 55vw;
+    font-family: 'Lato', sans-serif;
+    border: none;
+  }
+  textarea:focus,
+  input:focus {
+    outline: none;
+  }
+`;
+
+const SearchResults = styled.div`
+  width: 60vw;
+  height: auto;
+  background-color: #e7e7e7;
+  color: black;
+  display: grid;
+  padding: 15px 0 0 15px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+`;
+
+const SearchResult = styled.div`
+  display: flex;
+  align-items: center;
+  margin: 0 0 15px 0;
+`;
+
+const SearchImg = styled.img`
+  object-fit: cover;
+  border-radius: 100%;
+`;
+
+const UsernameTitle = styled.div`
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: 43px;
+  color: #ffffff;
+  margin: auto auto 30px auto;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 50%;
+
+  div {
+    margin: 0 10px 0 0;
+    height: 50px;
+  }
+
+  img {
+    margin: 0 15px 0 15px;
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+  }
+`;
+
+const BlankTimeline = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 40px 0 0 0;
+  font-family: 'Lato', sans-serif;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 60px;
+
+  div {
+    margin: 35px 0 0 0;
+    font-size: 42px;
+  }
+`;
+
+const RenderError = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-size: 58px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  color: #f7f7f7;
+
+  div {
+    margin: 40px 0 40px 0;
+  }
+
+  h1 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+`;
+
+export {
+  Father,
+  Nav1,
+  Nav2,
+  Mainline,
+  Div1,
+  Div2,
+  Div3,
+  Posting,
+  SearchBar,
+  SearchParent,
+  SearchResults,
+  SearchResult,
+  SearchImg,
+  UsernameTitle,
+  BlankTimeline,
+  RenderError,
+};

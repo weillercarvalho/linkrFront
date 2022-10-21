@@ -1,7 +1,12 @@
 import styled from 'styled-components';
 import open from '../assets/images/Open.png';
-import { useEffect, useState } from 'react';
-import { postPost, getPost, getPicture } from '../services/Services';
+import { useEffect, useRef, useState } from 'react';
+import {
+  postPost,
+  getPost,
+  getPicture,
+  getSearchUsers,
+} from '../services/Services';
 import Microlink from '@microlink/react';
 import {
   Father,
@@ -12,7 +17,16 @@ import {
   Div2,
   Div3,
   Posting,
+  SearchBar,
+  SearchParent,
+  SearchResults,
+  SearchResult,
+  SearchImg,
 } from './Common';
+import { useContainerDimensions } from './functions/getContainerDimensions';
+import { AiOutlineSearch } from 'react-icons/ai';
+import { useNavigate } from 'react-router-dom';
+import { DebounceInput } from 'react-debounce-input';
 
 export default function Home() {
   const [url, setUrl] = useState('');
@@ -22,6 +36,11 @@ export default function Home() {
   const [att, setAtt] = useState(false);
   const [picture, setPicture] = useState({});
   const [loading, setLoading] = useState(false);
+  const [searchParameter, setSearchParemeter] = useState('');
+  const [foundUsers, setFoundUsers] = useState([]);
+  const navigate = useNavigate();
+  const componentRef = useRef();
+  const { width } = useContainerDimensions(componentRef);
 
   useEffect(() => {
     getPost()
@@ -32,6 +51,16 @@ export default function Home() {
         setDatas(r.data);
       });
   }, [att]);
+
+  useEffect(() => {
+    if (searchParameter.length > 2) {
+      getSearchUsers(searchParameter)
+        .catch((e) => console.log(e))
+        .then((e) => setFoundUsers(e.data));
+    } else {
+      setSearchParemeter('');
+    }
+  }, [searchParameter]);
 
   useEffect(() => {
     getPicture()
@@ -75,6 +104,50 @@ export default function Home() {
       <Father>
         <nav>
           <p>linkr</p>
+          <SearchParent>
+            <SearchBar bottom={!foundUsers[0]}>
+              <div>
+                <DebounceInput
+                  minLength={2}
+                  debounceTimeout={300}
+                  onChange={(event) => {
+                    if (event.target.value.length > 2) {
+                      setSearchParemeter(event.target.value);
+                    } else {
+                      setSearchParemeter('');
+                      setFoundUsers([]);
+                    }
+                  }}
+                  placeholder={'Search for people'}
+                />
+              </div>
+              <div>
+                <AiOutlineSearch />
+              </div>
+            </SearchBar>
+            {!foundUsers[0] ? (
+              <></>
+            ) : (
+              <SearchResults>
+                {foundUsers.map((e) => {
+                  return (
+                    <SearchResult>
+                      <SearchImg src={e.picture} alt="alt" />
+                      <div
+                        onClick={() => {
+                          navigate(`/user/${e.id}`);
+                          setFoundUsers([]);
+                          setAtt(!att);
+                        }}
+                      >
+                        {e.name}
+                      </div>
+                    </SearchResult>
+                  );
+                })}
+              </SearchResults>
+            )}
+          </SearchParent>
           <section>
             <Nav1>
               <img src={open} alt="" />
@@ -87,7 +160,7 @@ export default function Home() {
       </Father>
       <Mainline>
         <p>timeline</p>
-        <header>
+        <header ref={componentRef}>
           <Div1>
             <img src={picture} alt="" />
           </Div1>
@@ -137,7 +210,7 @@ export default function Home() {
                 ></input>
               )}
             </Div2>
-            <Div3>
+            <Div3 horizontal={width}>
               {toggle ? (
                 <button disabled>Publishing</button>
               ) : (
@@ -158,6 +231,7 @@ export default function Home() {
                 message={value.message}
                 link={value.link}
                 name={value.name}
+                userId={value.userId}
                 picture={picture}
               />
             ))}
@@ -168,7 +242,8 @@ export default function Home() {
   );
 }
 
-function Posts({ message, link, picture, name }) {
+function Posts({ message, link, picture, name, userId }) {
+  const navigate = useNavigate();
   if (!link) {
     alert(`There are no posts yet.`);
   }
@@ -177,7 +252,7 @@ function Posts({ message, link, picture, name }) {
       <section>
         <img src={picture} alt="" />
         <nav>
-          <span>{name}</span>
+          <span onClick={() => navigate(`/user/${userId}`)}>{name}</span>
           <span>{message}</span>
           <div>
             <Microlink url={link} direction="rtl" />
