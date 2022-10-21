@@ -38,6 +38,7 @@ export default function Registered() {
     axios
       .post("http://localhost:5000/signup", body)
       .then((resposta) => {
+        localStorage.setItem("picture", picture);
         navigate("/");
       })
       .catch((error) => {
