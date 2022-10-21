@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import open from '../assets/images/Open.png';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
-  postPost,
-  getPost,
+  getUserData,
   getPicture,
+  getUserPosts,
   getSearchUsers,
 } from '../services/Services';
 import Microlink from '@microlink/react';
@@ -13,44 +13,48 @@ import {
   Nav1,
   Nav2,
   Mainline,
-  Div1,
-  Div2,
-  Div3,
   Posting,
   SearchBar,
   SearchParent,
   SearchResults,
   SearchResult,
   SearchImg,
+  UsernameTitle,
+  BlankTimeline,
 } from './Common';
-import { useContainerDimensions } from './functions/getContainerDimensions';
 import { AiOutlineSearch } from 'react-icons/ai';
-import { useNavigate } from 'react-router-dom';
+import { BsQuestion } from 'react-icons/bs';
+import { useNavigate, useParams } from 'react-router-dom';
 import { DebounceInput } from 'react-debounce-input';
 
-export default function Home() {
+export default function UserPage() {
   const [url, setUrl] = useState('');
   const [post, setPost] = useState('');
   const [toggle, setToggle] = useState(false);
   const [datas, setDatas] = useState([]);
+  const [userDatas, setUserDatas] = useState([]);
+  const [recievedUser, setRecievedUser] = useState(false);
   const [att, setAtt] = useState(false);
   const [picture, setPicture] = useState({});
   const [loading, setLoading] = useState(false);
   const [searchParameter, setSearchParemeter] = useState('');
   const [foundUsers, setFoundUsers] = useState([]);
+  const params = useParams();
   const navigate = useNavigate();
-  const componentRef = useRef();
-  const { width } = useContainerDimensions(componentRef);
 
   useEffect(() => {
-    getPost()
+    getUserData(params)
       .catch((r) => {
         console.log(r);
+        if (!userDatas[0]) {
+          navigate('/error');
+        }
       })
       .then((r) => {
-        setDatas(r.data);
+        setUserDatas(r.data);
+        setRecievedUser(true);
       });
-  }, [att]);
+  }, [recievedUser, att]);
 
   useEffect(() => {
     if (searchParameter.length > 2) {
@@ -63,41 +67,14 @@ export default function Home() {
   }, [searchParameter]);
 
   useEffect(() => {
-    getPicture()
+    getUserPosts(params)
       .catch((r) => {
         console.log(r);
       })
       .then((r) => {
-        setPicture(r.data.picture);
+        setDatas(r.data.userPosts);
       });
-  }, []);
-
-  function handlepost(e) {
-    if (loading === false) {
-      setLoading(true);
-      e.preventDefault(e);
-      setToggle(!toggle);
-      const body = {
-        message: post,
-        link: url,
-      };
-      postPost(body)
-        .then((r) => {
-          console.log(r);
-          setPost('');
-          setUrl('');
-          setToggle(false);
-          setAtt(!att);
-          setLoading(false);
-        })
-        .catch((r) => {
-          console.log(r);
-          alert(`Houve um erro ao publicar seu link`);
-          setToggle(false);
-          setLoading(false);
-        });
-    }
-  }
+  }, [att]);
 
   return (
     <>
@@ -159,83 +136,37 @@ export default function Home() {
         </nav>
       </Father>
       <Mainline>
-        <p>timeline</p>
-        <header ref={componentRef}>
-          <Div1>
-            <img src={picture} alt="" />
-          </Div1>
-          <form onSubmit={handlepost}>
-            <Div2>
-              <label htmlFor="url">What are you going to share today?</label>
-              {toggle ? (
-                <input
-                  id="url"
-                  type="url"
-                  name="url"
-                  value={url}
-                  onChange={(e) => setUrl(e.target.value)}
-                  placeholder="http://..."
-                  disabled
-                ></input>
-              ) : (
-                <input
-                  id="url"
-                  type="url"
-                  name="url"
-                  value={url}
-                  onChange={(e) => setUrl(e.target.value)}
-                  placeholder="http://..."
-                  required
-                ></input>
-              )}
-
-              <label htmlFor="text"></label>
-              {toggle ? (
-                <input
-                  type="text"
-                  id="text"
-                  name="text"
-                  value={post}
-                  onChange={(e) => setPost(e.target.value)}
-                  placeholder="Awesome article about #javascript"
-                  disabled
-                ></input>
-              ) : (
-                <input
-                  type="text"
-                  id="text"
-                  name="text"
-                  value={post}
-                  onChange={(e) => setPost(e.target.value)}
-                  placeholder="Awesome article about #javascript"
-                ></input>
-              )}
-            </Div2>
-            <Div3 horizontal={width}>
-              {toggle ? (
-                <button disabled>Publishing</button>
-              ) : (
-                <button>Publish</button>
-              )}
-            </Div3>
-          </form>
-        </header>
+        <UsernameTitle>
+          <div>
+            <img src={userDatas.picture} alt="" />
+          </div>
+          <div>
+            {userDatas.name ? `${userDatas.name}'s posts` : 'User not found'}
+          </div>
+        </UsernameTitle>
         {loading ? (
           <>
             <Loading>Loading</Loading>{' '}
           </>
         ) : (
           <>
-            {datas.map((value, index) => (
-              <Posts
-                key={index}
-                message={value.message}
-                link={value.link}
-                name={value.name}
-                userId={value.userId}
-                picture={picture}
-              />
-            ))}
+            {datas[0] ? (
+              datas.map((value, index) => (
+                <Posts
+                  key={index}
+                  message={value.Message}
+                  link={value.Link}
+                  name={value.Username}
+                  userId={params.userId}
+                  picture={value.Avatar}
+                />
+              ))
+            ) : (
+              <BlankTimeline>
+                <BsQuestion />
+                <div>empty timeline</div>
+              </BlankTimeline>
+            )}
           </>
         )}
       </Mainline>
