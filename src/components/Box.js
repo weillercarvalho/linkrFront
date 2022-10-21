@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import { useState, useRef, useEffect } from "react";
-import { AnimatePresence, motion, usePresence } from "framer-motion";
-import { gsap } from "gsap";
+import styled from 'styled-components';
+import { useState, useRef, useEffect } from 'react';
+import { AnimatePresence, motion, usePresence } from 'framer-motion';
+import { gsap } from 'gsap';
 
 function Box() {
   const ref = useRef(null);
@@ -35,7 +35,7 @@ export default function App() {
             setShow(!show);
           }}
         >
-          {show ? "Hide" : "Show"}
+          {show ? 'Hide' : 'Show'}
         </motion.button>
       </div>
 
