@@ -3,8 +3,19 @@ import axios from 'axios';
 const BASE_URL = `http://localhost:5000`;
 const authToken = localStorage.getItem('token');
 
+function creatingHeaders() {
+  const auth = localStorage.getItem('token');
+  const header = {
+    headers: {
+      Authorization: `Bearer ${auth}`,
+    },
+  };
+  return header;
+}
+
 function postPost(body) {
-  const promise = axios.post(`${BASE_URL}/timeline`, body);
+  const header = creatingHeaders();
+  const promise = axios.post(`${BASE_URL}/timeline`, body, header);
   return promise;
 }
 

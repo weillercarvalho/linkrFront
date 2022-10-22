@@ -12,7 +12,7 @@ const Posting = styled.div`
     height: 209px;
     background-color: #171717;
     border-radius: 16px;
-    width: 50%;
+    width: 40%;
     margin: auto auto 29px auto;
     color: #b7b7b7;
   }
@@ -139,7 +139,7 @@ const Mainline = styled.div`
     background-color: #ffffff;
     border-radius: 16px;
     margin: auto auto 29px auto;
-    width: 50%;
+    width: 40%;
   }
   input {
     font-family: 'Lato', sans-serif;
@@ -211,9 +211,6 @@ const Div2 = styled.div`
   display: flex;
   flex-direction: column;
 `;
-// const Div3 = styled.div`
-//   margin-left: 550px;
-// `;
 
 const Div3 = styled.div`
   display: flex;

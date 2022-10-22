@@ -421,7 +421,7 @@ function Posts({
             <span>{message}</span>
           )}
           <div>
-            <Microlink url={link} direction="rtl" />
+            <Microlink url={link} direction="rtl" size="normal" media="logo" />
           </div>
         </nav>
         {loggedUserId === userId ? (
