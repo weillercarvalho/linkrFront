@@ -103,7 +103,7 @@ export default function Home() {
     <>
       <Father>
         <nav>
-          <p>linkr</p>
+          <p onClick={() => navigate('/timeline')}>linkr</p>
           <SearchParent>
             <SearchBar bottom={!foundUsers[0]}>
               <div>
@@ -129,9 +129,9 @@ export default function Home() {
               <></>
             ) : (
               <SearchResults>
-                {foundUsers.map((e) => {
+                {foundUsers.map((e, i) => {
                   return (
-                    <SearchResult>
+                    <SearchResult key={i}>
                       <SearchImg src={e.picture} alt="alt" />
                       <div
                         onClick={() => {
@@ -232,7 +232,7 @@ export default function Home() {
                 link={value.link}
                 name={value.name}
                 userId={value.userId}
-                picture={picture}
+                picture={value.picture}
               />
             ))}
           </>

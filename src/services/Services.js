@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 const BASE_URL = `http://localhost:5000`;
+const authToken = localStorage.getItem('token');
 
 function postPost(body) {
   const promise = axios.post(`${BASE_URL}/timeline`, body);
@@ -18,14 +19,17 @@ function getPicture() {
 }
 
 function getUserPosts({ userId }) {
-  console.log(userId);
-  const promise = axios.get(`${BASE_URL}/users/${userId}`, { userId: userId });
+  const promise = axios.get(`${BASE_URL}/users/${userId}`, {
+    userId: userId,
+    headers: { Authorization: `Bearer ${authToken}` },
+  });
   return promise;
 }
 
 function getUserData({ userId }) {
   const config = {
     params: { userId: userId },
+    headers: { Authorization: `Bearer ${authToken}` },
   };
 
   const promise = axios.get(`${BASE_URL}/finduser`, config);
@@ -36,6 +40,7 @@ function getSearchUsers(namePrototype) {
   const nameParameter = namePrototype + '%';
   const config = {
     params: { name: nameParameter },
+    headers: { Authorization: `Bearer ${authToken}` },
   };
   const promise = axios.get(`${BASE_URL}/findname`, config);
   return promise;

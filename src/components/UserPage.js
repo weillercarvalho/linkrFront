@@ -80,7 +80,7 @@ export default function UserPage() {
     <>
       <Father>
         <nav>
-          <p>linkr</p>
+          <p onClick={() => navigate('/timeline')}>linkr</p>
           <SearchParent>
             <SearchBar bottom={!foundUsers[0]}>
               <div>
@@ -106,9 +106,9 @@ export default function UserPage() {
               <></>
             ) : (
               <SearchResults>
-                {foundUsers.map((e) => {
+                {foundUsers.map((e, i) => {
                   return (
-                    <SearchResult>
+                    <SearchResult key={i}>
                       <SearchImg src={e.picture} alt="alt" />
                       <div
                         onClick={() => {
