@@ -6,6 +6,7 @@ const Posting = styled.div`
   margin: auto;
   width: 100%;
   section {
+    position: relative;
     display: flex;
     flex-direction: row;
     height: 209px;
@@ -336,6 +337,116 @@ const RenderError = styled.div`
   }
 `;
 
+const UpdateContainer = styled.div`
+  position: absolute;
+  font-size: 40px;
+  width: 30px !important;
+  margin: 0 0 0 0;
+  right: 0;
+`;
+
+const DeletePost = styled.div`
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  position: absolute;
+  height: 30px;
+  width: 30px;
+  top: 10px;
+  right: 20px;
+`;
+const UpdatePost = styled.div`
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  position: absolute;
+  height: 30px;
+  width: 30px;
+  top: 10px;
+  right: 50px;
+`;
+
+const ModalContent = styled.div`
+  height: 20vh;
+  width: 35vw;
+  font-family: 'Lato', sans-serif !important;
+  font-weight: 400;
+  font-size: 17px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  color: #ffffff;
+  position: relative;
+`;
+
+const ModalTitle = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 6px 0 0 0;
+  font-size: 34px;
+  text-align: center;
+`;
+
+const CancelButtom = styled.div`
+  width: 45%;
+  height: 8vh;
+  background-color: #ffffff;
+  color: #1877f2;
+  margin: 0 10% 0 0;
+  border-radius: 8px;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const DeleteButtom = styled.div`
+  width: 45%;
+  background-color: #1877f2;
+  color: #ffffff;
+  margin: 0 0 0 0;
+  border-radius: 8px;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const OptionsContainer = styled.div`
+  bottom: 0;
+  width: 100%;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+`;
+
+const AnimationContainer = styled.div`
+  height: 200px;
+  width: 200px;
+  color: #ffffff;
+
+  div {
+    width: auto;
+    height: 50%;
+    color: #ffffff;
+    margin: 2% 0 2% 0;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+`;
+
 export {
   Father,
   Nav1,
@@ -353,4 +464,13 @@ export {
   UsernameTitle,
   BlankTimeline,
   RenderError,
+  UpdateContainer,
+  DeletePost,
+  UpdatePost,
+  ModalContent,
+  DeleteButtom,
+  CancelButtom,
+  OptionsContainer,
+  ModalTitle,
+  AnimationContainer,
 };

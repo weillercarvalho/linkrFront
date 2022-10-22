@@ -1,6 +1,6 @@
 import open from '../assets/images/Open.png';
 import { useEffect, useState } from 'react';
-import { getSearchUsers } from '../services/Services';
+import { getSearchUsers, getPicture } from '../services/Services';
 import {
   Father,
   Nav1,
@@ -24,6 +24,16 @@ export default function ErrorPage() {
   const [searchParameter, setSearchParemeter] = useState('');
   const [foundUsers, setFoundUsers] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    getPicture()
+      .catch((r) => {
+        console.log(r);
+      })
+      .then((r) => {
+        setPicture(r.data.picture);
+      });
+  }, []);
 
   useEffect(() => {
     if (searchParameter.length > 2) {

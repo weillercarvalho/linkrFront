@@ -6,6 +6,8 @@ import {
   getPost,
   getPicture,
   getSearchUsers,
+  getLoggedUserId,
+  deleteUserPost,
 } from '../services/Services';
 import Microlink from '@microlink/react';
 import {
@@ -22,11 +24,23 @@ import {
   SearchResults,
   SearchResult,
   SearchImg,
+  UpdateContainer,
+  UpdatePost,
+  DeletePost,
+  DeleteButtom,
+  CancelButtom,
+  OptionsContainer,
+  ModalTitle,
+  ModalContent,
+  AnimationContainer,
 } from './Common';
 import { useContainerDimensions } from './functions/getContainerDimensions';
-import { AiOutlineSearch } from 'react-icons/ai';
+import { AiOutlineSearch, AiOutlineDelete } from 'react-icons/ai';
+import { FiEdit2 } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import { DebounceInput } from 'react-debounce-input';
+import Modal from 'react-modal';
+import { Oval } from 'react-loader-spinner';
 
 export default function Home() {
   const [url, setUrl] = useState('');
@@ -38,9 +52,15 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [searchParameter, setSearchParemeter] = useState('');
   const [foundUsers, setFoundUsers] = useState([]);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [loadDelete, setLoadDelete] = useState(false);
+  const [userId, setUserId] = useState(0);
   const navigate = useNavigate();
   const componentRef = useRef();
   const { width } = useContainerDimensions(componentRef);
+  function closeModal() {
+    setModalIsOpen(false);
+  }
 
   useEffect(() => {
     getPost()
@@ -70,6 +90,9 @@ export default function Home() {
       .then((r) => {
         setPicture(r.data.picture);
       });
+    getLoggedUserId()
+      .catch((r) => console.log(r))
+      .then((r) => setUserId(r.data.userId));
   }, []);
 
   function handlepost(e) {
@@ -101,6 +124,69 @@ export default function Home() {
 
   return (
     <>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        style={ModalStyle}
+        contentLabel="Example Modal"
+        ariaHideApp={false}
+      >
+        {loadDelete ? (
+          <AnimationContainer>
+            <div>
+              <Oval
+                height={80}
+                width={80}
+                color="#ffffff"
+                wrapperStyle={{}}
+                wrapperClass=""
+                visible={true}
+                ariaLabel="oval-loading"
+                secondaryColor="#ffffff"
+                strokeWidth={2}
+                strokeWidthSecondary={2}
+              />
+            </div>
+            <div>Deleting</div>
+          </AnimationContainer>
+        ) : (
+          <ModalContent>
+            <ModalTitle>Are you sure you want to delete this post?</ModalTitle>
+            <OptionsContainer>
+              <CancelButtom
+                onClick={(event) => {
+                  event.preventDefault();
+                  setModalIsOpen(false);
+                }}
+              >
+                No, go back
+              </CancelButtom>
+              <DeleteButtom
+                onClick={(event) => {
+                  event.preventDefault();
+                  setLoadDelete(!loadDelete);
+                  deleteUserPost(modalIsOpen)
+                    .catch((r) => {
+                      console.log(r);
+                      setLoadDelete(!loadDelete);
+                      window.alert(
+                        "There's been an error while deleting your post"
+                      );
+                      setModalIsOpen(false);
+                    })
+                    .then((r) => {
+                      setLoadDelete(!loadDelete);
+                      setModalIsOpen(false);
+                      setAtt(!att);
+                    });
+                }}
+              >
+                Yes, delete it
+              </DeleteButtom>
+            </OptionsContainer>
+          </ModalContent>
+        )}
+      </Modal>
       <Father>
         <nav>
           <p onClick={() => navigate('/timeline')}>linkr</p>
@@ -228,11 +314,14 @@ export default function Home() {
             {datas.map((value, index) => (
               <Posts
                 key={index}
+                postId={value.postId}
                 message={value.message}
                 link={value.link}
                 name={value.name}
                 userId={value.userId}
                 picture={value.picture}
+                loggedUserId={userId}
+                setModal={setModalIsOpen}
               />
             ))}
           </>
@@ -242,7 +331,16 @@ export default function Home() {
   );
 }
 
-function Posts({ message, link, picture, name, userId }) {
+function Posts({
+  message,
+  link,
+  picture,
+  name,
+  userId,
+  loggedUserId,
+  postId,
+  setModal,
+}) {
   const navigate = useNavigate();
   if (!link) {
     alert(`There are no posts yet.`);
@@ -258,12 +356,38 @@ function Posts({ message, link, picture, name, userId }) {
             <Microlink url={link} direction="rtl" />
           </div>
         </nav>
+        {loggedUserId === userId ? (
+          <UpdateContainer>
+            <UpdatePost onClick={() => console.log('Update: ', postId)}>
+              <FiEdit2 />
+            </UpdatePost>
+            <DeletePost onClick={() => setModal(postId)}>
+              <AiOutlineDelete />
+            </DeletePost>
+          </UpdateContainer>
+        ) : (
+          <></>
+        )}
       </section>
     </Posting>
   );
 }
+
 const Loading = styled.p`
   font-family: 'Lato', sans-serif !important;
   font-weight: 400;
   font-size: 30px;
 `;
+
+const ModalStyle = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+    borderRadius: '8px',
+    backgroundColor: '#333333',
+  },
+};

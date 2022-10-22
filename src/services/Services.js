@@ -46,6 +46,24 @@ function getSearchUsers(namePrototype) {
   return promise;
 }
 
+function getLoggedUserId() {
+  const config = {
+    params: { token: authToken },
+    headers: { Authorization: `Bearer ${authToken}` },
+  };
+  const promise = axios.get(`${BASE_URL}/fetchLoggedUserId`, config);
+  return promise;
+}
+
+function deleteUserPost(postId) {
+  const config = {
+    body: { postId: postId },
+    headers: { Authorization: `Bearer ${authToken}` },
+  };
+  const promise = axios.put(`${BASE_URL}/delete`, config.body, config);
+  return promise;
+}
+
 export {
   postPost,
   getPost,
@@ -53,4 +71,6 @@ export {
   getUserPosts,
   getUserData,
   getSearchUsers,
+  getLoggedUserId,
+  deleteUserPost,
 };
