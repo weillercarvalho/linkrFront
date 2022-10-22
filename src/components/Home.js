@@ -41,7 +41,8 @@ export default function Home() {
   const navigate = useNavigate();
   const componentRef = useRef();
   const { width } = useContainerDimensions(componentRef);
-
+  
+  
   useEffect(() => {
     getPost()
       .catch((r) => {
@@ -255,13 +256,14 @@ function Posts({ message, link, picture, name, userId }) {
           <span onClick={() => navigate(`/user/${userId}`)}>{name}</span>
           <span>{message}</span>
           <div>
-            <Microlink url={link} direction="rtl" />
+              <Microlink url={link} direction="rtl" size='normal' media='logo'/>            
           </div>
         </nav>
       </section>
     </Posting>
   );
 }
+
 const Loading = styled.p`
   font-family: 'Lato', sans-serif !important;
   font-weight: 400;
