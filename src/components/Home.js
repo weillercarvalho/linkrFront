@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import open from '../assets/images/Open.png';
+import close from '../assets/images/Close.png'
 import { useEffect, useRef, useState } from 'react';
 import {
   postPost,
@@ -36,6 +37,7 @@ import {
   AnimationContainer,
   EditForms,
   EditInput,
+  Nav3,
 } from './Common';
 import { useContainerDimensions } from './functions/getContainerDimensions';
 import { AiOutlineSearch, AiOutlineDelete } from 'react-icons/ai';
@@ -61,6 +63,7 @@ export default function Home() {
   const navigate = useNavigate();
   const componentRef = useRef();
   const { width } = useContainerDimensions(componentRef);
+  const [logout,setLogout] = useState(false);
   function closeModal() {
     setModalIsOpen(false);
   }
@@ -123,6 +126,11 @@ export default function Home() {
           setLoading(false);
         });
     }
+  }
+
+  function getout() {
+    localStorage.clear();
+    window.location.replace("http://localhost:3000/")
   }
 
   return (
@@ -238,9 +246,20 @@ export default function Home() {
             )}
           </SearchParent>
           <section>
-            <Nav1>
-              <img src={open} alt="" />
-            </Nav1>
+            {logout ? 
+            <>
+              <Nav1>
+                <img src={close} onClick={() => setLogout(!logout)} alt="" />
+              </Nav1>            
+              <Nav3 onClick={getout}>
+                Logout
+              </Nav3>
+            </> : 
+            <>
+              <Nav1>
+                <img src={open} onClick={() => setLogout(!logout)} alt="" />
+              </Nav1>
+            </>}
             <Nav2>
               <img src={picture} alt="" />
             </Nav2>
