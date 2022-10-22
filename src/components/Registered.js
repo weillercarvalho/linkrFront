@@ -19,14 +19,14 @@ export default function Registered() {
   const [name, setName] = useState("");
   const [picture, setPicture] = useState("");
   const [password, setPassword] = useState("");
-  const {token} = useContext(UserContext);
+  const { token } = useContext(UserContext);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (token) {
-      navigate('/timeline')
+      navigate("/timeline");
     }
-  },[])
+  }, []);
 
   function handleForm(event) {
     event.preventDefault();

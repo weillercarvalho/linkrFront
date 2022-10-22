@@ -1,6 +1,6 @@
 import open from "../assets/images/Open.png";
 import { useEffect, useState } from "react";
-import { getSearchUsers } from "../services/Services";
+import { getSearchUsers, getPicture } from "../services/Services";
 import {
   Father,
   Nav1,
@@ -26,6 +26,16 @@ export default function ErrorPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    getPicture()
+      .catch((r) => {
+        console.log(r);
+      })
+      .then((r) => {
+        setPicture(r.data.picture);
+      });
+  }, []);
+
+  useEffect(() => {
     if (searchParameter.length > 2) {
       console.log(searchParameter);
       getSearchUsers(searchParameter)
@@ -40,7 +50,7 @@ export default function ErrorPage() {
     <>
       <Father>
         <nav>
-          <p>linkr</p>
+          <p onClick={() => navigate("/timeline")}>linkr</p>
           <SearchParent>
             <SearchBar bottom={!foundUsers[0]}>
               <div>
@@ -66,9 +76,9 @@ export default function ErrorPage() {
               <></>
             ) : (
               <SearchResults>
-                {foundUsers.map((e) => {
+                {foundUsers.map((e, i) => {
                   return (
-                    <SearchResult>
+                    <SearchResult key={i}>
                       <SearchImg src={e.picture} alt="alt" />
                       <div onClick={() => navigate(`/user/${e.id}`)}>
                         {e.name}
