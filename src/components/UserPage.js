@@ -43,6 +43,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { DebounceInput } from 'react-debounce-input';
 import Modal from 'react-modal';
 import { Oval } from 'react-loader-spinner';
+import { useContainerDimensions } from './functions/getContainerDimensions';
 
 export default function UserPage() {
   const [url, setUrl] = useState('');
@@ -59,6 +60,8 @@ export default function UserPage() {
   const [userId, setUserId] = useState(0);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [loadDelete, setLoadDelete] = useState(false);
+  const windowRef = useRef();
+  const windowWidth = useContainerDimensions(windowRef).width;
   const params = useParams();
   const navigate = useNavigate();
 
@@ -176,53 +179,61 @@ export default function UserPage() {
           </ModalContent>
         )}
       </Modal>
-      <Father>
-        <nav>
+      <Father ref={windowRef}>
+        <nav mobile={windowWidth <= 375 ? true : false}>
           <p onClick={() => navigate('/timeline')}>linkr</p>
-          <SearchParent>
-            <SearchBar bottom={!foundUsers[0]}>
-              <div>
-                <DebounceInput
-                  minLength={2}
-                  debounceTimeout={300}
-                  onChange={(event) => {
-                    if (event.target.value.length > 2) {
-                      setSearchParemeter(event.target.value);
-                    } else {
-                      setSearchParemeter('');
-                      setFoundUsers([]);
-                    }
-                  }}
-                  placeholder={'Search for people'}
-                />
-              </div>
-              <div>
-                <AiOutlineSearch />
-              </div>
-            </SearchBar>
-            {!foundUsers[0] ? (
-              <></>
-            ) : (
-              <SearchResults>
-                {foundUsers.map((e, i) => {
-                  return (
-                    <SearchResult key={i}>
-                      <SearchImg src={e.picture} alt="alt" />
-                      <div
-                        onClick={() => {
-                          navigate(`/user/${e.id}`);
+          {windowWidth <= 375 ? (
+            <></>
+          ) : (
+            <>
+              {' '}
+              <SearchParent>
+                <SearchBar mobile={false} bottom={!foundUsers[0]}>
+                  <div>
+                    <DebounceInput
+                      minLength={2}
+                      debounceTimeout={300}
+                      onChange={(event) => {
+                        if (event.target.value.length > 2) {
+                          setSearchParemeter(event.target.value);
+                        } else {
+                          setSearchParemeter('');
                           setFoundUsers([]);
-                          setAtt(!att);
-                        }}
-                      >
-                        {e.name}
-                      </div>
-                    </SearchResult>
-                  );
-                })}
-              </SearchResults>
-            )}
-          </SearchParent>
+                        }
+                      }}
+                      placeholder={'Search for people'}
+                    />
+                  </div>
+                  <div>
+                    <AiOutlineSearch />
+                  </div>
+                </SearchBar>
+                {!foundUsers[0] ? (
+                  <></>
+                ) : (
+                  <SearchResults>
+                    {foundUsers.map((e, i) => {
+                      return (
+                        <SearchResult key={i}>
+                          <SearchImg src={e.picture} alt="alt" />
+                          <div
+                            onClick={() => {
+                              navigate(`/user/${e.id}`);
+                              setFoundUsers([]);
+                              setAtt(!att);
+                            }}
+                          >
+                            {e.name}
+                          </div>
+                        </SearchResult>
+                      );
+                    })}
+                  </SearchResults>
+                )}
+              </SearchParent>
+            </>
+          )}
+
           <section>
             <Nav1>
               <img src={open} alt="" />
@@ -233,8 +244,59 @@ export default function UserPage() {
           </section>
         </nav>
       </Father>
-      <Mainline>
-        <UsernameTitle>
+      <Mainline mobile={windowWidth <= 375 ? true : false}>
+        {windowWidth > 375 ? (
+          <></>
+        ) : (
+          <>
+            {' '}
+            <SearchParent mobile={true}>
+              <SearchBar mobile={true} bottom={!foundUsers[0]}>
+                <div>
+                  <DebounceInput
+                    minLength={2}
+                    debounceTimeout={300}
+                    onChange={(event) => {
+                      if (event.target.value.length > 2) {
+                        setSearchParemeter(event.target.value);
+                      } else {
+                        setSearchParemeter('');
+                        setFoundUsers([]);
+                      }
+                    }}
+                    placeholder={'Search for people'}
+                  />
+                </div>
+                <div>
+                  <AiOutlineSearch />
+                </div>
+              </SearchBar>
+              {!foundUsers[0] ? (
+                <></>
+              ) : (
+                <SearchResults>
+                  {foundUsers.map((e, i) => {
+                    return (
+                      <SearchResult key={i}>
+                        <SearchImg src={e.picture} alt="alt" />
+                        <div
+                          onClick={() => {
+                            navigate(`/user/${e.id}`);
+                            setFoundUsers([]);
+                            setAtt(!att);
+                          }}
+                        >
+                          {e.name}
+                        </div>
+                      </SearchResult>
+                    );
+                  })}
+                </SearchResults>
+              )}
+            </SearchParent>
+          </>
+        )}
+        <UsernameTitle mobile={windowWidth <= 375 ? true : false}>
           <div>
             <img src={userDatas.picture} alt="" />
           </div>
@@ -251,6 +313,7 @@ export default function UserPage() {
             {datas[0] ? (
               datas.map((value, index) => (
                 <Posts
+                  mobile={windowWidth <= 375 ? true : false}
                   key={index}
                   message={value.Message}
                   link={value.Link}
@@ -266,7 +329,6 @@ export default function UserPage() {
               ))
             ) : (
               <BlankTimeline>
-                <BsQuestion />
                 <div>empty timeline</div>
               </BlankTimeline>
             )}
@@ -278,6 +340,7 @@ export default function UserPage() {
 }
 
 function Posts({
+  mobile,
   message,
   link,
   picture,
@@ -362,7 +425,11 @@ function Posts({
             <span>{message}</span>
           )}
           <div>
-            <Microlink url={link} direction="rtl" />
+            <Microlink
+              size={mobile ? 'small' : 'normal'}
+              url={link}
+              direction="rtl"
+            />
           </div>
         </nav>
         {loggedUserId === userId ? (
