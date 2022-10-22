@@ -8,6 +8,7 @@ import {
   getSearchUsers,
   getLoggedUserId,
   deleteUserPost,
+  updateUserPost,
 } from '../services/Services';
 import Microlink from '@microlink/react';
 import {
@@ -33,6 +34,8 @@ import {
   ModalTitle,
   ModalContent,
   AnimationContainer,
+  EditForms,
+  EditInput,
 } from './Common';
 import { useContainerDimensions } from './functions/getContainerDimensions';
 import { AiOutlineSearch, AiOutlineDelete } from 'react-icons/ai';
@@ -322,6 +325,8 @@ export default function Home() {
                 picture={value.picture}
                 loggedUserId={userId}
                 setModal={setModalIsOpen}
+                att={att}
+                setAtt={setAtt}
               />
             ))}
           </>
@@ -340,8 +345,40 @@ function Posts({
   loggedUserId,
   postId,
   setModal,
+  att,
+  setAtt,
 }) {
+  const [edit, setEdit] = useState(message);
+  const [shouldEdit, setShouldEdit] = useState(false);
+  const [disabled, setDisabled] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [newMessage, setNewMessage] = useState({});
+  const inputRef = useRef();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [shouldEdit]);
+
+  useEffect(() => {
+    if (submitted) {
+      updateUserPost(newMessage)
+        .catch((e) => {
+          window.alert('Edit failed, try refreshing your page');
+          setSubmitted(!submitted);
+          setDisabled(!disabled);
+        })
+        .then((e) => {
+          setSubmitted(!submitted);
+          setDisabled(!disabled);
+          setShouldEdit(!shouldEdit);
+          setAtt(!att);
+        });
+    }
+  }, [submitted]);
+
   if (!link) {
     alert(`There are no posts yet.`);
   }
@@ -351,14 +388,53 @@ function Posts({
         <img src={picture} alt="" />
         <nav>
           <span onClick={() => navigate(`/user/${userId}`)}>{name}</span>
-          <span>{message}</span>
+          {shouldEdit ? (
+            <EditForms
+              onKeyUp={(e) => {
+                if (e.code === 'Escape') {
+                  setEdit(message);
+                  setShouldEdit(!shouldEdit);
+                }
+              }}
+              onSubmit={(event) => {
+                event.preventDefault();
+                if (edit !== message) {
+                  setDisabled(!disabled);
+                  setNewMessage({
+                    message: edit,
+                    postId: postId,
+                  });
+                  setSubmitted(!submitted);
+                } else {
+                  setShouldEdit(!shouldEdit);
+                }
+              }}
+            >
+              <EditInput
+                ref={inputRef}
+                disabled={disabled}
+                onChange={(e) => setEdit(e.target.value)}
+                defaultValue={edit}
+              ></EditInput>
+            </EditForms>
+          ) : (
+            <span>{message}</span>
+          )}
           <div>
             <Microlink url={link} direction="rtl" />
           </div>
         </nav>
         {loggedUserId === userId ? (
           <UpdateContainer>
-            <UpdatePost onClick={() => console.log('Update: ', postId)}>
+            <UpdatePost
+              onClick={() => {
+                if (!shouldEdit) {
+                  setShouldEdit(!shouldEdit);
+                  setEdit(message);
+                }
+                setShouldEdit(!shouldEdit);
+              }}
+            >
               <FiEdit2 />
             </UpdatePost>
             <DeletePost onClick={() => setModal(postId)}>

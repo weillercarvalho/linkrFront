@@ -64,6 +64,15 @@ function deleteUserPost(postId) {
   return promise;
 }
 
+function updateUserPost({ message, postId }) {
+  const config = {
+    body: { newMessage: message, postId: postId },
+    headers: { Authorization: `Bearer ${authToken}` },
+  };
+  const promise = axios.put(`${BASE_URL}/update`, config.body, config);
+  return promise;
+}
+
 export {
   postPost,
   getPost,
@@ -73,4 +82,5 @@ export {
   getSearchUsers,
   getLoggedUserId,
   deleteUserPost,
+  updateUserPost,
 };

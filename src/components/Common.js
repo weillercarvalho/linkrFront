@@ -447,6 +447,27 @@ const AnimationContainer = styled.div`
   }
 `;
 
+const EditForms = styled.form`
+  width: 100% !important;
+`;
+
+const EditInput = styled.input`
+  background-color: #ffffff !important;
+  border-radius: 5px;
+  font-family: 'Lato', sans-serif !important;
+  font-weight: 400;
+  font-size: 17px;
+  margin: 0 0 20px 0 !important;
+  width: 100%;
+
+  textarea:focus,
+  input:focus {
+    outline: none;
+    box-shadow: none;
+    border: none;
+  }
+`;
+
 export {
   Father,
   Nav1,
@@ -473,4 +494,6 @@ export {
   OptionsContainer,
   ModalTitle,
   AnimationContainer,
+  EditInput,
+  EditForms,
 };
