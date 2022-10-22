@@ -1,6 +1,6 @@
-import open from '../assets/images/Open.png';
-import { useEffect, useState } from 'react';
-import { getSearchUsers, getPicture } from '../services/Services';
+import open from "../assets/images/Open.png";
+import { useEffect, useState } from "react";
+import { getSearchUsers, getPicture } from "../services/Services";
 import {
   Father,
   Nav1,
@@ -12,16 +12,16 @@ import {
   SearchResult,
   SearchImg,
   RenderError,
-} from './Common';
-import { AiOutlineSearch } from 'react-icons/ai';
-import { BiSad } from 'react-icons/bi';
-import { DebounceInput } from 'react-debounce-input';
-import { useNavigate } from 'react-router-dom';
+} from "./Common";
+import { AiOutlineSearch } from "react-icons/ai";
+import { BiSad } from "react-icons/bi";
+import { DebounceInput } from "react-debounce-input";
+import { useNavigate } from "react-router-dom";
 
 export default function ErrorPage() {
   const [picture, setPicture] = useState({});
   const [loading, setLoading] = useState(false);
-  const [searchParameter, setSearchParemeter] = useState('');
+  const [searchParameter, setSearchParemeter] = useState("");
   const [foundUsers, setFoundUsers] = useState([]);
   const navigate = useNavigate();
 
@@ -37,11 +37,12 @@ export default function ErrorPage() {
 
   useEffect(() => {
     if (searchParameter.length > 2) {
+      console.log(searchParameter);
       getSearchUsers(searchParameter)
         .catch((e) => console.log(e))
         .then((e) => setFoundUsers(e.data));
     } else {
-      setSearchParemeter('');
+      setSearchParemeter("");
     }
   }, [searchParameter]);
 
@@ -49,7 +50,7 @@ export default function ErrorPage() {
     <>
       <Father>
         <nav>
-          <p onClick={() => navigate('/timeline')}>linkr</p>
+          <p onClick={() => navigate("/timeline")}>linkr</p>
           <SearchParent>
             <SearchBar bottom={!foundUsers[0]}>
               <div>
@@ -60,11 +61,11 @@ export default function ErrorPage() {
                     if (event.target.value.length > 2) {
                       setSearchParemeter(event.target.value);
                     } else {
-                      setSearchParemeter('');
+                      setSearchParemeter("");
                       setFoundUsers([]);
                     }
                   }}
-                  placeholder={'Search for people'}
+                  placeholder={"Search for people"}
                 />
               </div>
               <div>
