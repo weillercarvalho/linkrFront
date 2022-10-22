@@ -103,12 +103,25 @@ const Father = styled.div`
     width: 50px;
     height: 50px;
   }
+  @media (max-width: 375px) {
+    p{
+      margin-left:10px;
+    }
+  }
 `;
 const Nav1 = styled.div`
+  display:flex;
+  justify-content: center;
+  align-items: center;
   img {
-    margin-top: 35px;
     width: 18.38px;
     height: 12.38px;
+    &:hover{
+      cursor: pointer;
+    }
+    &:active{
+      transform:scale(0.9)
+    }
   }
 `;
 const Nav2 = styled.div`
@@ -119,6 +132,22 @@ const Nav2 = styled.div`
     border-radius: 50%;
   }
 `;
+const Nav3 = styled.button`
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background-color:#151515;
+  color:#ffffff;
+  width:150px;
+  height:40px;
+  position:absolute;
+  right:0px;
+  top:70px;
+  border:none;
+  &:hover{
+    cursor:pointer;
+  }
+`
 const Mainline = styled.div`
   display: flex;
   flex-direction: column;
@@ -493,4 +522,5 @@ export {
   AnimationContainer,
   EditInput,
   EditForms,
+  Nav3,
 };
