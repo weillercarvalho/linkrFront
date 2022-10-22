@@ -1,6 +1,6 @@
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { useContext, useEffect, useState } from 'react';
 import {
   Container,
   Input,
@@ -11,28 +11,28 @@ import {
   Blocktext,
   Titulo,
   Text,
-} from "./Login";
-import { UserContext } from "./Context";
+} from './Login';
+import { UserContext } from './Context';
 
 export default function Registered() {
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const [picture, setPicture] = useState("");
-  const [password, setPassword] = useState("");
-  const {token} = useContext(UserContext);
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [picture, setPicture] = useState('');
+  const [password, setPassword] = useState('');
+  const { token } = useContext(UserContext);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (token) {
-      navigate('/timeline')
+      navigate('/timeline');
     }
-  },[])
+  }, []);
 
   function handleForm(event) {
     event.preventDefault();
 
-    if (name === "" || email === "" || password === "" || picture === "") {
-      return alert("fill all fields");
+    if (name === '' || email === '' || password === '' || picture === '') {
+      return alert('fill all fields');
     }
 
     const body = {
@@ -43,10 +43,10 @@ export default function Registered() {
     };
 
     axios
-      .post("http://localhost:5000/signup", body)
+      .post('http://localhost:5000/signup', body)
       .then((resposta) => {
-        localStorage.setItem("picture", picture);
-        navigate("/");
+        localStorage.setItem('picture', picture);
+        navigate('/');
       })
       .catch((error) => {
         alert(error.response.data.error);
@@ -96,7 +96,7 @@ export default function Registered() {
               ></Input>
             </div>
             <Button type="submit">Sign Up</Button>
-            <TxtCadastro onClick={() => navigate("/")}>
+            <TxtCadastro onClick={() => navigate('/')}>
               Switch back to log in
             </TxtCadastro>
           </form>

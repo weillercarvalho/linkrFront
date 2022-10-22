@@ -6,6 +6,9 @@ import {
   getPost,
   getPicture,
   getSearchUsers,
+  getLoggedUserId,
+  deleteUserPost,
+  updateUserPost,
 } from '../services/Services';
 import Microlink from '@microlink/react';
 import {
@@ -22,11 +25,25 @@ import {
   SearchResults,
   SearchResult,
   SearchImg,
+  UpdateContainer,
+  UpdatePost,
+  DeletePost,
+  DeleteButtom,
+  CancelButtom,
+  OptionsContainer,
+  ModalTitle,
+  ModalContent,
+  AnimationContainer,
+  EditForms,
+  EditInput,
 } from './Common';
 import { useContainerDimensions } from './functions/getContainerDimensions';
-import { AiOutlineSearch } from 'react-icons/ai';
+import { AiOutlineSearch, AiOutlineDelete } from 'react-icons/ai';
+import { FiEdit2 } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import { DebounceInput } from 'react-debounce-input';
+import Modal from 'react-modal';
+import { Oval } from 'react-loader-spinner';
 
 export default function Home() {
   const [url, setUrl] = useState('');
@@ -38,11 +55,16 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [searchParameter, setSearchParemeter] = useState('');
   const [foundUsers, setFoundUsers] = useState([]);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [loadDelete, setLoadDelete] = useState(false);
+  const [userId, setUserId] = useState(0);
   const navigate = useNavigate();
   const componentRef = useRef();
   const { width } = useContainerDimensions(componentRef);
-  
-  
+  function closeModal() {
+    setModalIsOpen(false);
+  }
+
   useEffect(() => {
     getPost()
       .catch((r) => {
@@ -71,6 +93,9 @@ export default function Home() {
       .then((r) => {
         setPicture(r.data.picture);
       });
+    getLoggedUserId()
+      .catch((r) => console.log(r))
+      .then((r) => setUserId(r.data.userId));
   }, []);
 
   function handlepost(e) {
@@ -102,9 +127,72 @@ export default function Home() {
 
   return (
     <>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        style={ModalStyle}
+        contentLabel="Example Modal"
+        ariaHideApp={false}
+      >
+        {loadDelete ? (
+          <AnimationContainer>
+            <div>
+              <Oval
+                height={80}
+                width={80}
+                color="#ffffff"
+                wrapperStyle={{}}
+                wrapperClass=""
+                visible={true}
+                ariaLabel="oval-loading"
+                secondaryColor="#ffffff"
+                strokeWidth={2}
+                strokeWidthSecondary={2}
+              />
+            </div>
+            <div>Deleting</div>
+          </AnimationContainer>
+        ) : (
+          <ModalContent>
+            <ModalTitle>Are you sure you want to delete this post?</ModalTitle>
+            <OptionsContainer>
+              <CancelButtom
+                onClick={(event) => {
+                  event.preventDefault();
+                  setModalIsOpen(false);
+                }}
+              >
+                No, go back
+              </CancelButtom>
+              <DeleteButtom
+                onClick={(event) => {
+                  event.preventDefault();
+                  setLoadDelete(!loadDelete);
+                  deleteUserPost(modalIsOpen)
+                    .catch((r) => {
+                      console.log(r);
+                      setLoadDelete(!loadDelete);
+                      window.alert(
+                        "There's been an error while deleting your post"
+                      );
+                      setModalIsOpen(false);
+                    })
+                    .then((r) => {
+                      setLoadDelete(!loadDelete);
+                      setModalIsOpen(false);
+                      setAtt(!att);
+                    });
+                }}
+              >
+                Yes, delete it
+              </DeleteButtom>
+            </OptionsContainer>
+          </ModalContent>
+        )}
+      </Modal>
       <Father>
         <nav>
-          <p>linkr</p>
+          <p onClick={() => navigate('/timeline')}>linkr</p>
           <SearchParent>
             <SearchBar bottom={!foundUsers[0]}>
               <div>
@@ -130,9 +218,9 @@ export default function Home() {
               <></>
             ) : (
               <SearchResults>
-                {foundUsers.map((e) => {
+                {foundUsers.map((e, i) => {
                   return (
-                    <SearchResult>
+                    <SearchResult key={i}>
                       <SearchImg src={e.picture} alt="alt" />
                       <div
                         onClick={() => {
@@ -229,11 +317,16 @@ export default function Home() {
             {datas.map((value, index) => (
               <Posts
                 key={index}
+                postId={value.postId}
                 message={value.message}
                 link={value.link}
                 name={value.name}
                 userId={value.userId}
-                picture={picture}
+                picture={value.picture}
+                loggedUserId={userId}
+                setModal={setModalIsOpen}
+                att={att}
+                setAtt={setAtt}
               />
             ))}
           </>
@@ -243,8 +336,49 @@ export default function Home() {
   );
 }
 
-function Posts({ message, link, picture, name, userId }) {
+function Posts({
+  message,
+  link,
+  picture,
+  name,
+  userId,
+  loggedUserId,
+  postId,
+  setModal,
+  att,
+  setAtt,
+}) {
+  const [edit, setEdit] = useState(message);
+  const [shouldEdit, setShouldEdit] = useState(false);
+  const [disabled, setDisabled] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [newMessage, setNewMessage] = useState({});
+  const inputRef = useRef();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [shouldEdit]);
+
+  useEffect(() => {
+    if (submitted) {
+      updateUserPost(newMessage)
+        .catch((e) => {
+          window.alert('Edit failed, try refreshing your page');
+          setSubmitted(!submitted);
+          setDisabled(!disabled);
+        })
+        .then((e) => {
+          setSubmitted(!submitted);
+          setDisabled(!disabled);
+          setShouldEdit(!shouldEdit);
+          setAtt(!att);
+        });
+    }
+  }, [submitted]);
+
   if (!link) {
     alert(`There are no posts yet.`);
   }
@@ -254,11 +388,62 @@ function Posts({ message, link, picture, name, userId }) {
         <img src={picture} alt="" />
         <nav>
           <span onClick={() => navigate(`/user/${userId}`)}>{name}</span>
-          <span>{message}</span>
+          {shouldEdit ? (
+            <EditForms
+              onKeyUp={(e) => {
+                if (e.code === 'Escape') {
+                  setEdit(message);
+                  setShouldEdit(!shouldEdit);
+                }
+              }}
+              onSubmit={(event) => {
+                event.preventDefault();
+                if (edit !== message) {
+                  setDisabled(!disabled);
+                  setNewMessage({
+                    message: edit,
+                    postId: postId,
+                  });
+                  setSubmitted(!submitted);
+                } else {
+                  setShouldEdit(!shouldEdit);
+                }
+              }}
+            >
+              <EditInput
+                ref={inputRef}
+                disabled={disabled}
+                onChange={(e) => setEdit(e.target.value)}
+                defaultValue={edit}
+              ></EditInput>
+            </EditForms>
+          ) : (
+            <span>{message}</span>
+          )}
           <div>
-              <Microlink url={link} direction="rtl" size='normal' media='logo'/>            
+            <Microlink url={link} direction="rtl" size="normal" media="logo" />
           </div>
         </nav>
+        {loggedUserId === userId ? (
+          <UpdateContainer>
+            <UpdatePost
+              onClick={() => {
+                if (!shouldEdit) {
+                  setShouldEdit(!shouldEdit);
+                  setEdit(message);
+                }
+                setShouldEdit(!shouldEdit);
+              }}
+            >
+              <FiEdit2 />
+            </UpdatePost>
+            <DeletePost onClick={() => setModal(postId)}>
+              <AiOutlineDelete />
+            </DeletePost>
+          </UpdateContainer>
+        ) : (
+          <></>
+        )}
       </section>
     </Posting>
   );
@@ -269,3 +454,16 @@ const Loading = styled.p`
   font-weight: 400;
   font-size: 30px;
 `;
+
+const ModalStyle = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+    borderRadius: '8px',
+    backgroundColor: '#333333',
+  },
+};

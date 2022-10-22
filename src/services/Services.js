@@ -1,14 +1,15 @@
 import axios from 'axios';
 
 const BASE_URL = `http://localhost:5000`;
+const authToken = localStorage.getItem('token');
 
 function creatingHeaders() {
   const auth = localStorage.getItem('token');
   const header = {
     headers: {
       Authorization: `Bearer ${auth}`,
-    }
-  }
+    },
+  };
   return header;
 }
 
@@ -29,14 +30,17 @@ function getPicture() {
 }
 
 function getUserPosts({ userId }) {
-  console.log(userId);
-  const promise = axios.get(`${BASE_URL}/users/${userId}`, { userId: userId });
+  const promise = axios.get(`${BASE_URL}/users/${userId}`, {
+    userId: userId,
+    headers: { Authorization: `Bearer ${authToken}` },
+  });
   return promise;
 }
 
 function getUserData({ userId }) {
   const config = {
     params: { userId: userId },
+    headers: { Authorization: `Bearer ${authToken}` },
   };
 
   const promise = axios.get(`${BASE_URL}/finduser`, config);
@@ -47,8 +51,36 @@ function getSearchUsers(namePrototype) {
   const nameParameter = namePrototype + '%';
   const config = {
     params: { name: nameParameter },
+    headers: { Authorization: `Bearer ${authToken}` },
   };
   const promise = axios.get(`${BASE_URL}/findname`, config);
+  return promise;
+}
+
+function getLoggedUserId() {
+  const config = {
+    params: { token: authToken },
+    headers: { Authorization: `Bearer ${authToken}` },
+  };
+  const promise = axios.get(`${BASE_URL}/fetchLoggedUserId`, config);
+  return promise;
+}
+
+function deleteUserPost(postId) {
+  const config = {
+    body: { postId: postId },
+    headers: { Authorization: `Bearer ${authToken}` },
+  };
+  const promise = axios.put(`${BASE_URL}/delete`, config.body, config);
+  return promise;
+}
+
+function updateUserPost({ message, postId }) {
+  const config = {
+    body: { newMessage: message, postId: postId },
+    headers: { Authorization: `Bearer ${authToken}` },
+  };
+  const promise = axios.put(`${BASE_URL}/update`, config.body, config);
   return promise;
 }
 
@@ -59,4 +91,7 @@ export {
   getUserPosts,
   getUserData,
   getSearchUsers,
+  getLoggedUserId,
+  deleteUserPost,
+  updateUserPost,
 };
