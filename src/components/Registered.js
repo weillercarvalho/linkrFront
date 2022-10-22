@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   Container,
   Input,
@@ -12,14 +12,21 @@ import {
   Titulo,
   Text,
 } from "./Login";
+import { UserContext } from "./Context";
 
 export default function Registered() {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [picture, setPicture] = useState("");
   const [password, setPassword] = useState("");
-
+  const {token} = useContext(UserContext);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (token) {
+      navigate('/timeline')
+    }
+  },[])
 
   function handleForm(event) {
     event.preventDefault();
