@@ -7,6 +7,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const [disabled, setDisabled] = useState(false);
 
   function handleForm(event) {
     event.preventDefault();
@@ -14,6 +15,7 @@ export default function Login() {
     if (email === "" || password === "") {
       return alert("fill all fields");
     }
+    setDisabled(true);
 
     const body = {
       email: email,
@@ -27,6 +29,7 @@ export default function Login() {
         navigate("/timeline");
       })
       .catch((error) => {
+        setDisabled(false);
         alert(error.response.data.error);
       });
   }
@@ -59,7 +62,9 @@ export default function Login() {
               ></Input>
             </div>
 
-            <Button type="submit">Log in</Button>
+            <Button type="submit" disabled={disabled}>
+              Log in
+            </Button>
           </form>
           <TxtCadastro onClick={() => navigate("/registered")}>
             First time? Create an account!
@@ -75,38 +80,56 @@ export default function Login() {
 export const TxtCadastro = styled.div`
   display: flex;
   justify-content: center;
+  align-items: center;
   text-decoration: underline;
+  width: 36vw;
   color: #ffffff;
   cursor: pointer;
-  line-height: 22.5px;
+  line-height: 20px;
   font-weight: 700;
   font-size: 15px;
   text-decoration: none;
+  @media (max-width: 400px) {
+    font-size: 12px;
+    width: 90vw;
+  }
 `;
 
 export const Button = styled.button`
-  width: 35vw;
-  height: 65px;
+  width: 36vw;
+  height: 64px;
   background-color: #a328d6;
   border-radius: 5px;
-  margin-bottom: 15px;
-  font-size: 20px;
-  font-weight: 700;
+  margin-bottom: 22px;
+  font-size: 21px;
   color: #ffffff;
   box-sizing: border-box;
   cursor: pointer;
-  border-style: hidden;
+
+  @media (max-width: 400px) {
+    width: 90vw;
+    height: 9vh;
+    margin-bottom: 10px;
+  }
 `;
 
 export const Input = styled.input`
   font-family: "Oswald", sans-serif;
-  width: 35vw;
-  height: 65px;
-  margin-bottom: 13px;
+  width: 36vw;
+  height: 62px;
+  margin-bottom: 10px;
   font-size: 20px;
   color: #262626;
+  border-style: none;
   padding-left: 8px;
   border-radius: 5px;
+
+  @media (max-width: 400px) {
+    width: 90vw;
+    height: 10vh;
+    margin-bottom: 5.5px;
+    font-size: 17px;
+  }
 `;
 
 export const BlockTwo = styled.div`
@@ -119,27 +142,71 @@ export const BlockTwo = styled.div`
   width: 40vw;
   height: 100%;
   background-color: #333333;
+
+  @media (max-width: 400px) {
+    width: 100vw;
+    height: 65vh;
+    justify-content: top;
+    padding-top: 8px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
 `;
 
-export const Titulo = styled.h1`
+export const Titulo = styled.div`
   font-family: "Passion One", cursive;
   width: 250px;
   font-weight: 700;
   font-size: 100px;
   font-weight: 700;
   color: #ffffff;
+
+  @media (max-width: 400px) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 60px;
+    margin-top: 10px;
+    font-size: 76px;
+  }
 `;
-export const Text = styled.h1`
+export const Text = styled.div`
   font-family: "Oswald", sans-serif;
   width: 40vw;
   font-weight: 700;
   font-size: 43px;
   font-weight: 400;
+  line-height: 40px;
   color: #ffffff;
   word-wrap: break-word;
+
+  @media (max-width: 400px) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 74%;
+    min-width: 237px;
+    line-height: 25px;
+    font-size: 23px;
+  }
 `;
 
-export const Blocktext = styled.div``;
+export const Blocktext = styled.div`
+  @media (max-width: 400px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 30vh;
+    font-size: 23px;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+`;
 
 export const BlockOne = styled.div`
   display: flex;
@@ -150,8 +217,12 @@ export const BlockOne = styled.div`
   top: 0;
   left: 0;
   width: 60vw;
-  height: 100%;
+  height: 100vh;
   background-color: black;
+
+  @media (max-width: 400px) {
+    width: 100%;
+  }
 `;
 
 export const Container = styled.div`
@@ -165,4 +236,9 @@ export const Container = styled.div`
   align-items: center;
   flex-direction: column;
   background: black;
+
+  @media (max-width: 400px) {
+    width: 100%;
+    height: 100vh;
+  }
 `;

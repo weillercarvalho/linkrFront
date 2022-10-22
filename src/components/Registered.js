@@ -39,6 +39,7 @@ export default function Registered() {
       .post("http://localhost:5000/signup", body)
       .then((resposta) => {
         localStorage.setItem("picture", picture);
+        alert("registered user");
         navigate("/");
       })
       .catch((error) => {
