@@ -52,13 +52,13 @@ const Posting = styled.div`
   }
   @media (max-width: 375px) {
     section {
-      width: 100%;
+      width: 100vw;
     }
     nav {
       margin-left: 10px;
     }
     div {
-      width: 15%;
+      width: 100%;
     }
   }
 `;
@@ -67,7 +67,7 @@ const Father = styled.div`
   display: flex;
   flex-direction: column;
   nav {
-    width: 100%;
+    width: ${(mobile) => (mobile.mobile ? '100vw' : '100vw')};
     height: 72px;
     position: fixed;
     top: 0px;
@@ -103,12 +103,25 @@ const Father = styled.div`
     width: 50px;
     height: 50px;
   }
+  @media (max-width: 375px) {
+    p {
+      margin-left: 10px;
+    }
+  }
 `;
 const Nav1 = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   img {
-    margin-top: 35px;
     width: 18.38px;
     height: 12.38px;
+    &:hover {
+      cursor: pointer;
+    }
+    &:active {
+      transform: scale(0.9);
+    }
   }
 `;
 const Nav2 = styled.div`
@@ -119,11 +132,28 @@ const Nav2 = styled.div`
     border-radius: 50%;
   }
 `;
+const Nav3 = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #151515;
+  color: #ffffff;
+  width: 150px;
+  height: 40px;
+  position: absolute;
+  right: 0px;
+  top: 70px;
+  border: none;
+  &:hover {
+    cursor: pointer;
+  }
+`;
 const Mainline = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 150px auto auto auto;
-  width: 100%;
+  margin: ${(mobile) =>
+    mobile.mobile ? '100px 0 0 0' : '150px auto auto auto'};
+  width: ${(mobile) => (mobile.mobile ? '100vw' : '100%')};
   p {
     font-family: 'Oswald', sans-serif;
     font-weight: 700;
@@ -183,6 +213,7 @@ const Mainline = styled.div`
   @media (max-width: 375px) {
     p {
       margin-left: 20px;
+      margin-top: 20px;
     }
     header {
       width: 100%;
@@ -219,13 +250,15 @@ const Div3 = styled.div`
 `;
 
 const SearchParent = styled.div`
-  margin-top: 35px;
+  margin-top: ${(mobile) => (mobile.mobile ? '0' : '35px')};
+  width: ${(mobile) => (mobile.mobile ? '90%' : 'auto')};
+  left: 5%;
   height: 100%;
   position: relative;
 `;
 
 const SearchBar = styled.div`
-  width: 60vw;
+  width: ${(mobile) => (mobile.mobile ? '100%' : '60vw')};
   height: 50%;
   background-color: #ffffff;
   color: black;
@@ -235,6 +268,7 @@ const SearchBar = styled.div`
   border-bottom-right-radius: ${({ bottom }) => (bottom ? 8 : 0)}px;
   display: flex;
   justify-content: space-between;
+  align-items: ${(mobile) => (mobile.mobile ? 'center' : 'auto')};
   padding: 10px 10px 5px 10px;
 
   div {
@@ -252,7 +286,7 @@ const SearchBar = styled.div`
 `;
 
 const SearchResults = styled.div`
-  width: 60vw;
+  width: ${(mobile) => (mobile.mobile ? '60vw' : '90vw')};
   height: auto;
   background-color: #e7e7e7;
   color: black;
@@ -278,11 +312,12 @@ const UsernameTitle = styled.div`
   font-weight: 700;
   font-size: 43px;
   color: #ffffff;
-  margin: auto auto 30px auto;
+  margin: ${(mobile) =>
+    mobile.mobile ? '30px auto 30px auto' : 'auto auto 30px auto'};
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  width: 50%;
+  width: ${(mobile) => (mobile.mobile ? '100%' : '50%')};
 
   div {
     margin: 0 10px 0 0;
@@ -493,4 +528,5 @@ export {
   AnimationContainer,
   EditInput,
   EditForms,
+  Nav3,
 };

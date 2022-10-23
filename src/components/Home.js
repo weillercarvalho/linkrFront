@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import open from '../assets/images/Open.png';
+import close from '../assets/images/Close.png';
 import { useEffect, useRef, useState } from 'react';
 import {
   postPost,
@@ -36,6 +37,7 @@ import {
   AnimationContainer,
   EditForms,
   EditInput,
+  Nav3,
 } from './Common';
 import { useContainerDimensions } from './functions/getContainerDimensions';
 import { AiOutlineSearch, AiOutlineDelete } from 'react-icons/ai';
@@ -61,10 +63,12 @@ export default function Home() {
   const navigate = useNavigate();
   const componentRef = useRef();
   const { width } = useContainerDimensions(componentRef);
+  const windowRef = useRef();
+  const windowWidth = useContainerDimensions(windowRef).width;
+  const [logout, setLogout] = useState(false);
   function closeModal() {
     setModalIsOpen(false);
   }
-
   useEffect(() => {
     getPost()
       .catch((r) => {
@@ -123,6 +127,11 @@ export default function Home() {
           setLoading(false);
         });
     }
+  }
+
+  function getout() {
+    localStorage.clear();
+    window.location.replace('http://localhost:3000/');
   }
 
   return (
@@ -190,65 +199,134 @@ export default function Home() {
           </ModalContent>
         )}
       </Modal>
-      <Father>
-        <nav>
+      <Father ref={windowRef}>
+        <nav mobile={windowWidth <= 375 ? true : false}>
           <p onClick={() => navigate('/timeline')}>linkr</p>
-          <SearchParent>
-            <SearchBar bottom={!foundUsers[0]}>
-              <div>
-                <DebounceInput
-                  minLength={2}
-                  debounceTimeout={300}
-                  onChange={(event) => {
-                    if (event.target.value.length > 2) {
-                      setSearchParemeter(event.target.value);
-                    } else {
-                      setSearchParemeter('');
-                      setFoundUsers([]);
-                    }
-                  }}
-                  placeholder={'Search for people'}
-                />
-              </div>
-              <div>
-                <AiOutlineSearch />
-              </div>
-            </SearchBar>
-            {!foundUsers[0] ? (
-              <></>
-            ) : (
-              <SearchResults>
-                {foundUsers.map((e, i) => {
-                  return (
-                    <SearchResult key={i}>
-                      <SearchImg src={e.picture} alt="alt" />
-                      <div
-                        onClick={() => {
-                          navigate(`/user/${e.id}`);
+          {windowWidth <= 375 ? (
+            <></>
+          ) : (
+            <>
+              {' '}
+              <SearchParent>
+                <SearchBar mobile={true} bottom={!foundUsers[0]}>
+                  <div>
+                    <DebounceInput
+                      minLength={2}
+                      debounceTimeout={300}
+                      onChange={(event) => {
+                        if (event.target.value.length > 2) {
+                          setSearchParemeter(event.target.value);
+                        } else {
+                          setSearchParemeter('');
                           setFoundUsers([]);
-                          setAtt(!att);
-                        }}
-                      >
-                        {e.name}
-                      </div>
-                    </SearchResult>
-                  );
-                })}
-              </SearchResults>
-            )}
-          </SearchParent>
+                        }
+                      }}
+                      placeholder={'Search for people'}
+                    />
+                  </div>
+                  <div>
+                    <AiOutlineSearch />
+                  </div>
+                </SearchBar>
+                {!foundUsers[0] ? (
+                  <></>
+                ) : (
+                  <SearchResults mobile={true}>
+                    {foundUsers.map((e, i) => {
+                      return (
+                        <SearchResult key={i}>
+                          <SearchImg src={e.picture} alt="alt" />
+                          <div
+                            onClick={() => {
+                              navigate(`/user/${e.id}`);
+                              setFoundUsers([]);
+                              setAtt(!att);
+                            }}
+                          >
+                            {e.name}
+                          </div>
+                        </SearchResult>
+                      );
+                    })}
+                  </SearchResults>
+                )}
+              </SearchParent>
+            </>
+          )}
           <section>
-            <Nav1>
-              <img src={open} alt="" />
-            </Nav1>
+            {logout ? (
+              <>
+                <Nav1>
+                  <img src={close} onClick={() => setLogout(!logout)} alt="" />
+                </Nav1>
+                <Nav3 onClick={getout}>Logout</Nav3>
+              </>
+            ) : (
+              <>
+                <Nav1>
+                  <img src={open} onClick={() => setLogout(!logout)} alt="" />
+                </Nav1>
+              </>
+            )}
             <Nav2>
               <img src={picture} alt="" />
             </Nav2>
           </section>
         </nav>
       </Father>
-      <Mainline>
-        <p>timeline</p>
+      <Mainline mobile={windowWidth <= 375 ? true : false}>
+        {windowWidth > 375 ? (
+          <></>
+        ) : (
+          <>
+            {' '}
+            <SearchParent mobile={true}>
+              <SearchBar mobile={true} bottom={!foundUsers[0]}>
+                <div>
+                  <DebounceInput
+                    minLength={2}
+                    debounceTimeout={300}
+                    onChange={(event) => {
+                      if (event.target.value.length > 2) {
+                        setSearchParemeter(event.target.value);
+                      } else {
+                        setSearchParemeter('');
+                        setFoundUsers([]);
+                      }
+                    }}
+                    placeholder={'Search for people'}
+                  />
+                </div>
+                <div>
+                  <AiOutlineSearch />
+                </div>
+              </SearchBar>
+              {!foundUsers[0] ? (
+                <></>
+              ) : (
+                <SearchResults>
+                  {foundUsers.map((e, i) => {
+                    return (
+                      <SearchResult key={i}>
+                        <SearchImg src={e.picture} alt="alt" />
+                        <div
+                          onClick={() => {
+                            navigate(`/user/${e.id}`);
+                            setFoundUsers([]);
+                            setAtt(!att);
+                          }}
+                        >
+                          {e.name}
+                        </div>
+                      </SearchResult>
+                    );
+                  })}
+                </SearchResults>
+              )}
+            </SearchParent>
+          </>
+        )}
+        <p mobile={windowWidth <= 375 ? true : false}>timeline</p>
         <header ref={componentRef}>
           <Div1>
             <img src={picture} alt="" />
@@ -316,6 +394,7 @@ export default function Home() {
           <>
             {datas.map((value, index) => (
               <Posts
+                mobile={windowWidth}
                 key={index}
                 postId={value.postId}
                 message={value.message}
@@ -337,6 +416,7 @@ export default function Home() {
 }
 
 function Posts({
+  mobile,
   message,
   link,
   picture,
@@ -383,7 +463,7 @@ function Posts({
     alert(`There are no posts yet.`);
   }
   return (
-    <Posting>
+    <Posting mobile={mobile.windowWidth <= 375 ? mobile.windowWidth : false}>
       <section>
         <img src={picture} alt="" />
         <nav>
@@ -421,7 +501,7 @@ function Posts({
             <span>{message}</span>
           )}
           <div>
-            <Microlink url={link} direction="rtl" size="normal" media="logo" />
+            <Microlink size="normal" url={link} direction="rtl" media="logo" />
           </div>
         </nav>
         {loggedUserId === userId ? (
