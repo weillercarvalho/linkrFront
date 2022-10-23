@@ -46,6 +46,7 @@ import { useNavigate } from 'react-router-dom';
 import { DebounceInput } from 'react-debounce-input';
 import Modal from 'react-modal';
 import { Oval } from 'react-loader-spinner';
+import TrendingTopics from './Trending';
 
 export default function Home() {
   const [url, setUrl] = useState('');
