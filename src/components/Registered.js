@@ -43,7 +43,7 @@ export default function Registered() {
     };
 
     axios
-      .post("http://localhost:5000/signup", body)
+      .post("https://linkr-project-backend.herokuapp.com/signup", body)
       .then((resposta) => {
         localStorage.setItem("picture", picture);
         alert("registered user");
