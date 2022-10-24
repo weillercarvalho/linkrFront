@@ -116,6 +116,7 @@ export default function UserPage() {
   }, [att]);
   return (
     <>
+    {console.log(datas)}
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
