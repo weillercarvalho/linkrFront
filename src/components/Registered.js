@@ -11,6 +11,7 @@ import {
   Blocktext,
   Titulo,
   Text,
+  Loadder,
 } from "./Login";
 import { UserContext } from "./Context";
 
@@ -19,6 +20,7 @@ export default function Registered() {
   const [name, setName] = useState("");
   const [picture, setPicture] = useState("");
   const [password, setPassword] = useState("");
+  const [disabled, setDisabled] = useState(false);
   const { token } = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -35,6 +37,8 @@ export default function Registered() {
       return alert("fill all fields");
     }
 
+    setDisabled(true);
+
     const body = {
       name: name,
       email: email,
@@ -50,6 +54,7 @@ export default function Registered() {
         navigate("/");
       })
       .catch((error) => {
+        setDisabled(false);
         alert(error.response.data.error);
       });
   }
@@ -72,7 +77,6 @@ export default function Registered() {
                 onChange={(event) => setEmail(event.target.value)}
               ></Input>
             </div>
-
             <div>
               <Input
                 placeholder="password"
@@ -80,7 +84,6 @@ export default function Registered() {
                 value={password}
               ></Input>
             </div>
-
             <div>
               <Input
                 placeholder="username"
@@ -88,7 +91,6 @@ export default function Registered() {
                 onChange={(event) => setName(event.target.value)}
               ></Input>
             </div>
-
             <div>
               <Input
                 placeholder="picture url"
@@ -96,7 +98,10 @@ export default function Registered() {
                 onChange={(event) => setPicture(event.target.value)}
               ></Input>
             </div>
-            <Button type="submit">Sign Up</Button>
+            <Button type="submit" disabled={disabled}>
+              {disabled === true ? <Loadder></Loadder> : "Sign Up"}
+            </Button>
+
             <TxtCadastro onClick={() => navigate("/")}>
               Switch back to log in
             </TxtCadastro>
