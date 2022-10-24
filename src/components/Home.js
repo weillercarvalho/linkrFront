@@ -132,7 +132,7 @@ export default function Home() {
 
   function getout() {
     localStorage.clear();
-    window.location.replace('http://localhost:3000/');
+    window.location.replace('https://linkrfront.vercel.app/');
   }
 
   return (

@@ -7,7 +7,7 @@ import { UserContext } from "./Context";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [disabled, setDisabled] = useState("");
+  const [disabled, setDisabled] = useState(false);
   const navigate = useNavigate();
 
   const { token } = useContext(UserContext);
@@ -71,9 +71,15 @@ export default function Login() {
               ></Input>
             </div>
 
-            <Button type="submit" disabled={disabled}>
-              Log in
-            </Button>
+            {disabled === true ? (
+              <Button type="submit" disabled={disabled}>
+                <Loadder></Loadder>
+              </Button>
+            ) : (
+              <Button type="submit" disabled={disabled}>
+                Log in
+              </Button>
+            )}
           </form>
           <TxtCadastro onClick={() => navigate("/registered")}>
             First time? Create an account!
@@ -85,6 +91,24 @@ export default function Login() {
 }
 
 //font-family: 'Lato', sans-serif;
+export const Loadder = styled.div`
+  pointer-events: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: #ffffff;
+  animation: an1 0.8s ease infinite;
+
+  @keyframes an1 {
+    0% {
+      tranform: rotate(0turn);
+    }
+    100% {
+      transform: rotate(1turn);
+    }
+  }
+`;
 
 export const TxtCadastro = styled.div`
   display: flex;
@@ -105,6 +129,9 @@ export const TxtCadastro = styled.div`
 `;
 
 export const Button = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 36vw;
   height: 64px;
   background-color: #a328d6;
