@@ -500,6 +500,39 @@ const EditInput = styled.input`
   }
 `;
 
+const Title = styled.div`
+  width: 60vw;
+  min-width: 725px;
+  height: auto;
+  margin: 15vh auto 0 auto;
+  box-sizing: border-box;
+
+  h1{
+    font-family: 'Oswald';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 43px;
+    line-height: 64px;
+    color: #FFFFFF;
+  }
+`
+
+const Organizer = styled.div`
+  width: auto;
+  min-width: 725px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  margin: 5vh auto;
+
+  .principalColumn{
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  `
+
 export {
   Father,
   Nav1,
@@ -529,4 +562,6 @@ export {
   EditInput,
   EditForms,
   Nav3,
+  Title,
+  Organizer
 };

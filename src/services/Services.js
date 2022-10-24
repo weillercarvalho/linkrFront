@@ -20,6 +20,7 @@ function postPost(body) {
 }
 
 function getPost() {
+  //const header = creatingHeaders();
   const promise = axios.get(`${BASE_URL}/timeline`);
   return promise;
 }
@@ -82,7 +83,36 @@ function updateUserPost({ message, postId }) {
   };
   const promise = axios.put(`${BASE_URL}/update`, config.body, config);
   return promise;
+};
+
+function getTrendingTopics() {
+  const promise = axios.get(`${BASE_URL}/hashtags`);
+  return promise;
 }
+
+function getHashtagPosts(id){
+  const header = creatingHeaders();
+  const promise = axios.get(`${BASE_URL}/hashtag/${id}`, header);
+  return promise;
+}
+
+function postLike(id){
+  const header = creatingHeaders();
+  const config = {
+    body: { "postId": id }
+  };
+  const promise = axios.post(`${BASE_URL}/like`,config.body, header);
+  return promise;
+};
+
+function deleteLike(id){
+  const config = {
+    body: { postId: id },
+    headers: { Authorization: `Bearer ${authToken}` },
+  };
+  const promise = axios.put(`${BASE_URL}/like`, config.body, config);
+  return promise;
+};
 
 export {
   postPost,
@@ -94,4 +124,8 @@ export {
   getLoggedUserId,
   deleteUserPost,
   updateUserPost,
+  getTrendingTopics,
+  getHashtagPosts,
+  postLike,
+  deleteLike
 };

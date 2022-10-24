@@ -9,6 +9,8 @@ import ErrorPage from './Error';
 import PrivatePage from '../services/PrivatePage';
 import { UserContext } from './Context';
 import { useState } from 'react';
+import TrendingTopics from './Trending';
+import HashtagPage from './HashtagPage';
 
 export default function App() {
   const [token, setToken] = useState(false);
@@ -27,6 +29,8 @@ export default function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Login />} />
+            <Route path="/trending" element={<TrendingTopics />} />
+            <Route path="/hashtag/:hashtag" element={<HashtagPage />} />
             <Route path="/registered" element={<Registered />} />
             <Route
               path="/timeline"
