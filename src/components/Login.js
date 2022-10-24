@@ -32,7 +32,7 @@ export default function Login() {
     };
 
     axios
-      .post("http://localhost:5000/signin", body)
+      .post("https://linkr-project-backend.herokuapp.com/signin", body)
       .then((response) => {
         localStorage.setItem("token", response.data.token);
         navigate("/timeline");
