@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-//const BASE_URL = `https://linkr-project-backend.herokuapp.com`;
-const BASE_URL = `http://localhost:5000`;
+const BASE_URL = `https://linkr-project-backend.herokuapp.com`;
+//const BASE_URL = `http://localhost:5000`;  //for local testing
 const authToken = localStorage.getItem('token');
 
 function creatingHeaders() {
