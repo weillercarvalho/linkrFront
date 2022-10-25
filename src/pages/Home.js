@@ -191,7 +191,7 @@ export default function Home() {
                   postId={value.postId}
                   att={att}
                   setAtt={setAtt}
-                  userId={userId}
+                  userId={value.userId}
                   loggedUserId={userId}
                   setModal={setModalIsOpen}
                 />
