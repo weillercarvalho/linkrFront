@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 //const BASE_URL = `https://linkr-project-backend.herokuapp.com`;
-const BASE_URL = `https://localhost:5000`;
+const BASE_URL = `http://localhost:5000`;
 const authToken = localStorage.getItem('token');
 
 function creatingHeaders() {
@@ -115,6 +115,16 @@ function deleteLike(id) {
   return promise;
 }
 
+function postSignup(body) {
+  const promise = axios.post(`${BASE_URL}/signup`, body);
+  return promise;
+}
+
+function postSignin(body) {
+  const promise = axios.post(`${BASE_URL}/signin`, body);
+  return promise;
+}
+
 export {
   postPost,
   getPost,
@@ -129,4 +139,6 @@ export {
   getHashtagPosts,
   postLike,
   deleteLike,
+  postSignup,
+  postSignin,
 };

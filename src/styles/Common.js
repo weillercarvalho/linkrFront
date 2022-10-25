@@ -77,7 +77,6 @@ const Father = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    z-index: 1;
   }
   p {
     font-family: 'Passion One', cursive;
@@ -258,7 +257,7 @@ const SearchParent = styled.div`
 `;
 
 const SearchBar = styled.div`
-  width: ${(mobile) => (mobile.mobile ? '100%' : '60vw')};
+  width: ${(mobile) => (mobile.mobile ? '90vw' : '60vw')};
   height: 50%;
   background-color: #ffffff;
   color: black;
@@ -286,7 +285,7 @@ const SearchBar = styled.div`
 `;
 
 const SearchResults = styled.div`
-  width: ${(mobile) => (mobile.mobile ? '60vw' : '90vw')};
+  width: ${(mobile) => (mobile.mobile ? '90vw' : '60vw')};
   height: auto;
   background-color: #e7e7e7;
   color: black;
@@ -375,6 +374,7 @@ const UpdateContainer = styled.div`
   width: 30px !important;
   margin: 0 0 0 0;
   right: 0;
+  font-size: 22px;
 `;
 
 const DeletePost = styled.div`
@@ -384,7 +384,7 @@ const DeletePost = styled.div`
   position: absolute;
   height: 30px;
   width: 30px;
-  top: 10px;
+  top: 0px;
   right: 20px;
 `;
 const UpdatePost = styled.div`
@@ -394,13 +394,13 @@ const UpdatePost = styled.div`
   position: absolute;
   height: 30px;
   width: 30px;
-  top: 10px;
+  top: 0px;
   right: 50px;
 `;
 
 const ModalContent = styled.div`
-  height: 20vh;
-  width: 35vw;
+  height: ${(mobile) => (mobile.mobile ? '25vh' : '20vh')};
+  width: ${(mobile) => (mobile.mobile ? 'auto' : '50vw')};
   font-family: 'Lato', sans-serif !important;
   font-weight: 400;
   font-size: 17px;
@@ -507,15 +507,15 @@ const Title = styled.div`
   margin: 15vh auto 0 auto;
   box-sizing: border-box;
 
-  h1{
+  h1 {
     font-family: 'Oswald';
     font-style: normal;
     font-weight: 700;
     font-size: 43px;
     line-height: 64px;
-    color: #FFFFFF;
+    color: #ffffff;
   }
-`
+`;
 
 const Organizer = styled.div`
   width: auto;
@@ -525,13 +525,13 @@ const Organizer = styled.div`
   justify-content: center;
   margin: 5vh auto;
 
-  .principalColumn{
+  .principalColumn {
     width: auto;
     height: auto;
     display: flex;
     flex-direction: column;
   }
-  `
+`;
 
 export {
   Father,
@@ -563,5 +563,5 @@ export {
   EditForms,
   Nav3,
   Title,
-  Organizer
+  Organizer,
 };
