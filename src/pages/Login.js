@@ -1,12 +1,12 @@
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import { useContext, useEffect, useState } from "react";
-import { UserContext } from "./Context";
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import { useContext, useEffect, useState } from 'react';
+import { UserContext } from '../context/Context';
+import { postSignin } from '../services/Services';
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [disabled, setDisabled] = useState(false);
   const navigate = useNavigate();
 
@@ -14,15 +14,15 @@ export default function Login() {
 
   useEffect(() => {
     if (token) {
-      navigate("/timeline");
+      navigate('/timeline');
     }
   }, []);
 
   function handleForm(event) {
     event.preventDefault();
 
-    if (email === "" || password === "") {
-      return alert("fill all fields");
+    if (email === '' || password === '') {
+      return alert('fill all fields');
     }
     setDisabled(true);
 
@@ -30,12 +30,10 @@ export default function Login() {
       email: email,
       password: password,
     };
-
-    axios
-      .post("https://linkr-project-backend.herokuapp.com/signin", body)
+    postSignin(body)
       .then((response) => {
-        localStorage.setItem("token", response.data.token);
-        navigate("/timeline");
+        localStorage.setItem('token', response.data.token);
+        navigate('/timeline');
       })
       .catch((error) => {
         setDisabled(false);
@@ -81,7 +79,7 @@ export default function Login() {
               </Button>
             )}
           </form>
-          <TxtCadastro onClick={() => navigate("/registered")}>
+          <TxtCadastro onClick={() => navigate('/registered')}>
             First time? Create an account!
           </TxtCadastro>
         </BlockTwo>
@@ -150,7 +148,7 @@ export const Button = styled.button`
 `;
 
 export const Input = styled.input`
-  font-family: "Oswald", sans-serif;
+  font-family: 'Oswald', sans-serif;
   width: 36vw;
   height: 62px;
   margin-bottom: 10px;
@@ -191,7 +189,7 @@ export const BlockTwo = styled.div`
 `;
 
 export const Titulo = styled.div`
-  font-family: "Passion One", cursive;
+  font-family: 'Passion One', cursive;
   width: 250px;
   font-weight: 700;
   font-size: 100px;
@@ -209,7 +207,7 @@ export const Titulo = styled.div`
   }
 `;
 export const Text = styled.div`
-  font-family: "Oswald", sans-serif;
+  font-family: 'Oswald', sans-serif;
   width: 40vw;
   font-weight: 700;
   font-size: 43px;

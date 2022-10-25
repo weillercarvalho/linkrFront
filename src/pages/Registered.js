@@ -1,6 +1,5 @@
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
+import { useContext, useEffect, useState } from 'react';
 import {
   Container,
   Input,
@@ -12,29 +11,30 @@ import {
   Titulo,
   Text,
   Loadder,
-} from "./Login";
-import { UserContext } from "./Context";
+} from './Login';
+import { UserContext } from '../context/Context';
+import { postSignup } from '../services/Services';
 
 export default function Registered() {
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const [picture, setPicture] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [picture, setPicture] = useState('');
+  const [password, setPassword] = useState('');
   const [disabled, setDisabled] = useState(false);
   const { token } = useContext(UserContext);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (token) {
-      navigate("/timeline");
+      navigate('/timeline');
     }
   }, []);
 
   function handleForm(event) {
     event.preventDefault();
 
-    if (name === "" || email === "" || password === "" || picture === "") {
-      return alert("fill all fields");
+    if (name === '' || email === '' || password === '' || picture === '') {
+      return alert('fill all fields');
     }
 
     setDisabled(true);
@@ -45,13 +45,11 @@ export default function Registered() {
       password: password,
       picture: picture,
     };
-
-    axios
-      .post("https://linkr-project-backend.herokuapp.com/signup", body)
+    postSignup(body)
       .then((resposta) => {
-        localStorage.setItem("picture", picture);
-        alert("registered user");
-        navigate("/");
+        localStorage.setItem('picture', picture);
+        alert('registered user');
+        navigate('/');
       })
       .catch((error) => {
         setDisabled(false);
@@ -99,10 +97,10 @@ export default function Registered() {
               ></Input>
             </div>
             <Button type="submit" disabled={disabled}>
-              {disabled === true ? <Loadder></Loadder> : "Sign Up"}
+              {disabled === true ? <Loadder></Loadder> : 'Sign Up'}
             </Button>
 
-            <TxtCadastro onClick={() => navigate("/")}>
+            <TxtCadastro onClick={() => navigate('/')}>
               Switch back to log in
             </TxtCadastro>
           </form>

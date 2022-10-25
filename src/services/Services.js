@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 const BASE_URL = `https://linkr-project-backend.herokuapp.com`;
+//const BASE_URL = `http://localhost:5000`;  //for local testing
 const authToken = localStorage.getItem('token');
 
 function creatingHeaders() {
@@ -83,36 +84,46 @@ function updateUserPost({ message, postId }) {
   };
   const promise = axios.put(`${BASE_URL}/update`, config.body, config);
   return promise;
-};
+}
 
 function getTrendingTopics() {
   const promise = axios.get(`${BASE_URL}/hashtags`);
   return promise;
 }
 
-function getHashtagPosts(id){
+function getHashtagPosts(id) {
   const header = creatingHeaders();
   const promise = axios.get(`${BASE_URL}/hashtag/${id}`, header);
   return promise;
 }
 
-function postLike(id){
+function postLike(id) {
   const header = creatingHeaders();
   const config = {
-    body: { "postId": id }
+    body: { postId: id },
   };
-  const promise = axios.post(`${BASE_URL}/like`,config.body, header);
+  const promise = axios.post(`${BASE_URL}/like`, config.body, header);
   return promise;
-};
+}
 
-function deleteLike(id){
+function deleteLike(id) {
   const config = {
     body: { postId: id },
     headers: { Authorization: `Bearer ${authToken}` },
   };
   const promise = axios.put(`${BASE_URL}/like`, config.body, config);
   return promise;
-};
+}
+
+function postSignup(body) {
+  const promise = axios.post(`${BASE_URL}/signup`, body);
+  return promise;
+}
+
+function postSignin(body) {
+  const promise = axios.post(`${BASE_URL}/signin`, body);
+  return promise;
+}
 
 export {
   postPost,
@@ -127,5 +138,7 @@ export {
   getTrendingTopics,
   getHashtagPosts,
   postLike,
-  deleteLike
+  deleteLike,
+  postSignup,
+  postSignin,
 };

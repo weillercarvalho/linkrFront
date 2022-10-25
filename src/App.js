@@ -1,16 +1,16 @@
-import { Global } from './Global';
+import { Global } from './styles/Global';
 import { Reset } from 'styled-reset';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Home from './Home';
-import Login from './Login';
-import Registered from './Registered';
-import UserPage from './UserPage';
-import ErrorPage from './Error';
-import PrivatePage from '../services/PrivatePage';
-import { UserContext } from './Context';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Registered from './pages/Registered';
+import UserPage from './pages/UserPage';
+import ErrorPage from './pages/Error';
+import PrivatePage from './services/PrivatePage';
+import { UserContext } from './context/Context';
 import { useState } from 'react';
-import TrendingTopics from './Trending';
-import HashtagPage from './HashtagPage';
+import TrendingTopics from './components/Trending';
+import HashtagPage from './pages/HashtagPage';
 
 export default function App() {
   const [token, setToken] = useState(false);
