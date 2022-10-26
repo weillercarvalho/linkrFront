@@ -28,6 +28,7 @@ export default function Post({
   sharerId,
   sharerName,
   originalUserId,
+  reshareCount,
 }) {
   liked = isLiked;
 
@@ -56,7 +57,7 @@ export default function Post({
 
   return (
     <>
-      <Posts mobile={mobile}>
+      <Posts mobile={mobile} shared={shared}>
         <SharedPost
           shared={shared}
           sharerName={sharerName}
@@ -86,6 +87,7 @@ export default function Post({
             loggedUserId={loggedUserId}
             att={att}
             setAtt={setAtt}
+            reshareCount={reshareCount}
           />
         </PictureLikes>
 
@@ -137,7 +139,12 @@ const Posts = styled.div`
   width: ${(mobile) => (mobile.mobile ? '100%' : '40vw')};
   height: auto;
   min-width: ${(mobile) => (mobile.mobile ? '100%' : '500px')};
-  margin: ${(mobile) => (mobile.mobile ? '15px 0 0 0' : '10px 0 0 25%')};
+  margin: ${(mobile) =>
+    mobile.mobile
+      ? '15px 0 0 0'
+      : mobile.shared
+      ? '35px 0 0 25%'
+      : '10px 0 0 25%'};
   background-color: #171717;
   border-radius: 16px;
   margin-bottom: 2vh;

@@ -97,7 +97,6 @@ export default function Home() {
     }
   }
 
-  console.log(datas);
   return (
     <>
       <RenderModal
@@ -245,6 +244,7 @@ export default function Home() {
                     sharerId={null || value.SharerId}
                     sharerName={null || value.SharerName}
                     originalUserId={null || value.OriginalUserId}
+                    reshareCount={value.reshareCount}
                   />
                 ))
               ) : (
