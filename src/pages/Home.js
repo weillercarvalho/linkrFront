@@ -1,21 +1,24 @@
-import styled from 'styled-components';
-import { useEffect, useRef, useState } from 'react';
+import styled from "styled-components";
+import { useEffect, useRef, useState } from "react";
 import {
   postPost,
   getPost,
   getPicture,
   getLoggedUserId,
-} from '../services/Services';
-import { Mainline, Div1, Div2, Div3, BlankTimeline } from '../styles/Common';
-import { useContainerDimensions } from '../hooks/getContainerDimensions';
-import RenderSearchbar from '../components/Searchbar';
-import RenderModal from '../components/Modal';
-import Topper from '../components/Topper';
-import Post from '../components/Post';
+} from "../services/Services";
+import { Mainline, Div1, Div2, Div3, BlankTimeline } from "../styles/Common";
+import { useContainerDimensions } from "../hooks/getContainerDimensions";
+import RenderSearchbar from "../components/Searchbar";
+import RenderModal from "../components/Modal";
+import Topper from "../components/Topper";
+import Post from "../components/Post";
+import circle from "../assets/images/Vector.png";
+import useInterval from "use-interval";
+import InfiniteScroll from "react-infinite-scroller";
 
 export default function Home() {
-  const [url, setUrl] = useState('');
-  const [post, setPost] = useState('');
+  const [url, setUrl] = useState("");
+  const [post, setPost] = useState("");
   const [toggle, setToggle] = useState(false);
   const [datas, setDatas] = useState([]);
   const [att, setAtt] = useState(false);
@@ -24,6 +27,8 @@ export default function Home() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [loadDelete, setLoadDelete] = useState(false);
   const [userId, setUserId] = useState(0);
+  const [size, setSize] = useState([]);
+  const [count, setCount] = useState(0);
 
   const componentRef = useRef();
   const { width } = useContainerDimensions(componentRef);
@@ -40,6 +45,14 @@ export default function Home() {
       });
   }, [att]);
 
+  useInterval(() => {
+    if (size.length - datas.length === 0 || size.length - datas.length < 0) {
+      return setCount(0);
+    } else if (size.length - datas.length !== 0) {
+      return setCount(size.length - datas.length);
+    }
+  }, 15000);
+
   useEffect(() => {
     getPicture()
       .catch((r) => {
@@ -53,6 +66,10 @@ export default function Home() {
       .then((r) => setUserId(r.data.userId));
   }, []);
 
+  function loadingmore() {
+    return datas.splice(10);
+  }
+
   function handlepost(e) {
     if (loading === false) {
       setLoading(true);
@@ -64,11 +81,11 @@ export default function Home() {
       };
       postPost(body)
         .then((r) => {
+          setSize(r.data);
           console.log(r);
-          setPost('');
-          setUrl('');
+          setPost("");
+          setUrl("");
           setToggle(false);
-          setAtt(!att);
           setLoading(false);
         })
         .catch((r) => {
@@ -79,6 +96,7 @@ export default function Home() {
         });
     }
   }
+
   return (
     <>
       <RenderModal
@@ -103,7 +121,7 @@ export default function Home() {
           <></>
         ) : (
           <>
-            {' '}
+            {" "}
             <RenderSearchbar mobile={true} />
           </>
         )}
@@ -170,39 +188,66 @@ export default function Home() {
           </form>
         </header>
         {/* Components above? */}
-        <UpdatesTimeline mobile={windowWidth <= 375 ? true : false}>
-          Teste teste teste teste teste
-        </UpdatesTimeline>
-        {loading ? (
+        {count === 0 ? (
           <>
-            <Loading>Loading</Loading>{' '}
+            <UpdatesTimeline
+              onClick={() => setAtt(!att)}
+              mobile={windowWidth <= 375 ? true : false}
+            >
+              {count} new posts!
+            </UpdatesTimeline>
           </>
         ) : (
           <>
-            {datas[0] ? (
-              datas.map((value, index) => (
-                <Post
-                  key={index}
-                  mobile={windowWidth <= 375 ? true : false}
-                  profilePicture={value.picture}
-                  link={value.link}
-                  profileName={value.name}
-                  message={value.message}
-                  //isLiked={???}
-                  //totalLikes={???}
-                  postId={value.postId}
-                  att={att}
-                  setAtt={setAtt}
-                  userId={value.userId}
-                  loggedUserId={userId}
-                  setModal={setModalIsOpen}
-                />
-              ))
-            ) : (
-              <BlankTimeline>
-                <div>empty timeline</div>
-              </BlankTimeline>
-            )}
+            <UpdatesTimeline
+              onClick={() => setAtt(!att)}
+              mobile={windowWidth <= 375 ? true : false}
+            >
+              {count} new posts, load more! <img src={circle} alt="" />
+            </UpdatesTimeline>
+          </>
+        )}
+        {loading ? (
+          <>
+            <Loading>Loading</Loading>{" "}
+          </>
+        ) : (
+          <>
+            <InfiniteScroll
+              pageStart={0}
+              loadMore={loadingmore}
+              hasMore={true}
+              loader={
+                <div className="loader" key={0}>
+                  Loading ...
+                </div>
+              }
+            >
+              {datas[0] ? (
+                datas.map((value, index) => (
+                  <Post
+                    key={index}
+                    mobile={windowWidth <= 375 ? true : false}
+                    profilePicture={value.picture}
+                    link={value.link}
+                    profileName={value.name}
+                    message={value.message}
+                    //isLiked={???}
+                    //totalLikes={???}
+                    postId={value.postId}
+                    att={att}
+                    setAtt={setAtt}
+                    userId={value.userId}
+                    loggedUserId={userId}
+                    setModal={setModalIsOpen}
+                  />
+                ))
+              ) : (
+                <BlankTimeline>
+                  <div>empty timeline</div>
+                </BlankTimeline>
+              )}
+            </InfiniteScroll>
           </>
         )}
       </Mainline>
@@ -211,20 +256,28 @@ export default function Home() {
 }
 
 const Loading = styled.p`
-  font-family: 'Lato', sans-serif !important;
+  font-family: "Lato", sans-serif !important;
   font-weight: 400;
   font-size: 30px;
 `;
 
 const UpdatesTimeline = styled.button`
-  width: ${(mobile) => (mobile.mobile ? '100%' : '40%')} !important;
-  min-width: ${(mobile) => (mobile.mobile ? '100%' : '500px')} !important;
-  margin: ${(mobile) => (mobile.mobile ? '0' : '0 0 17px 25%')} !important;
+  position: ${(mobile) => (mobile.mobile ? "fixed" : "none")} !important;
+  top: ${(mobile) => (mobile.mobile ? "500px" : "none")} !important;
+  left: ${(mobile) => (mobile.mobile ? "40px" : "none")} !important;
+  width: ${(mobile) => (mobile.mobile ? "40%" : "40%")} !important;
+  min-width: ${(mobile) => (mobile.mobile ? "80%" : "500px")} !important;
+  margin: ${(mobile) => (mobile.mobile ? "0" : "0 0 17px 25%")} !important;
   height: 61px !important;
   background-color: #1877f2;
   color: #ffffff;
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
   font-weight: 400;
   font-size: 16px;
   margin: 40px auto 17px auto;
-`
+  img {
+    width: 22px !important;
+    height: 16px !important;
+    margin-left: 5px;
+  }
+`;
