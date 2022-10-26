@@ -5,13 +5,7 @@ import { FiEdit2 } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { postLike, deleteLike } from '../services/Services';
-import {
-  DeletePost,
-  SharedContainer,
-  SharedDetails,
-  UpdateContainer,
-  UpdatePost,
-} from '../styles/Common';
+import { DeletePost, UpdateContainer, UpdatePost } from '../styles/Common';
 import RenderMessage from './Message';
 import circle from '../assets/images/Vector.png';
 import { NewSharePost, SharedPost } from './Share';

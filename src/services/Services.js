@@ -124,6 +124,16 @@ function postSignin(body) {
   return promise;
 }
 
+function sharePost(postId, removeShare) {
+  const config = {
+    body: { postId: postId, removeShare: removeShare },
+    headers: { Authorization: `Bearer ${authToken}` },
+  };
+  console.log(config);
+  const promise = axios.post(`${BASE_URL}/share`, config.body, config);
+  return promise;
+}
+
 export {
   postPost,
   getPost,
@@ -140,4 +150,5 @@ export {
   deleteLike,
   postSignup,
   postSignin,
+  sharePost,
 };

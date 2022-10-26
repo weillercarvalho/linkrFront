@@ -1,6 +1,7 @@
 import { SharedContainer, SharedDetails } from '../styles/Common';
 import { BiRepost } from 'react-icons/bi';
 import styled from 'styled-components';
+import { sharePost } from '../services/Services';
 
 export function SharedPost({ shared, sharerName, sharerId, userId }) {
   return shared ? (
@@ -46,8 +47,14 @@ function handleShare(postId, removeShare) {
   console.log('share this post: ', postId);
   if (removeShare) {
     console.log('remove share? ', removeShare);
+    sharePost(postId, removeShare)
+      .catch((e) => console.log(e))
+      .then((e) => console.log(e));
   } else {
     console.log('share? ', !removeShare);
+    sharePost(postId, removeShare)
+      .catch((e) => console.log(e))
+      .then((e) => console.log(e));
   }
   return;
 }
