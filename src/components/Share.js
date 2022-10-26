@@ -8,7 +8,9 @@ export function SharedPost({ shared, sharerName, sharerId, userId }) {
     <div>
       <SharedContainer>
         <SharedDetails>
-          <BiRepost />
+          <div>
+            <BiRepost />
+          </div>
           {sharerId === userId ? (
             <span>
               Re-posted by <Boldify>you</Boldify>
@@ -26,14 +28,21 @@ export function SharedPost({ shared, sharerName, sharerId, userId }) {
   );
 }
 
-export function NewSharePost({ postId, removeShare, userId, loggedUserId }) {
+export function NewSharePost({
+  postId,
+  removeShare,
+  userId,
+  loggedUserId,
+  att,
+  setAtt,
+}) {
   return (
     <ShareContainer>
       <EnlargeIcon
         onClick={() => {
           userId === loggedUserId
-            ? console.log('you cant share your own posts')
-            : handleShare(postId, removeShare);
+            ? window.alert('you cant share your own posts')
+            : handleShare(postId, removeShare, att, setAtt);
         }}
       >
         <BiRepost />
@@ -43,18 +52,15 @@ export function NewSharePost({ postId, removeShare, userId, loggedUserId }) {
   );
 }
 
-function handleShare(postId, removeShare) {
-  console.log('share this post: ', postId);
+function handleShare(postId, removeShare, att, setAtt) {
   if (removeShare) {
-    console.log('remove share? ', removeShare);
     sharePost(postId, removeShare)
       .catch((e) => console.log(e))
-      .then((e) => console.log(e));
+      .then((e) => setAtt(!att));
   } else {
-    console.log('share? ', !removeShare);
     sharePost(postId, removeShare)
       .catch((e) => console.log(e))
-      .then((e) => console.log(e));
+      .then((e) => setAtt(!att));
   }
   return;
 }

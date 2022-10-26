@@ -69,8 +69,6 @@ export default function UserPage() {
       });
   }, [att, location.state]);
 
-  //console.log(datas);
-
   return (
     <>
       <RenderModal

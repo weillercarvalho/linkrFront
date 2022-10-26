@@ -7,7 +7,6 @@ import styled from 'styled-components';
 import { postLike, deleteLike } from '../services/Services';
 import { DeletePost, UpdateContainer, UpdatePost } from '../styles/Common';
 import RenderMessage from './Message';
-import circle from '../assets/images/Vector.png';
 import { NewSharePost, SharedPost } from './Share';
 
 let liked = false;
@@ -85,6 +84,8 @@ export default function Post({
             removeShare={shared && sharerId === loggedUserId}
             userId={originalUserId ? originalUserId : userId}
             loggedUserId={loggedUserId}
+            att={att}
+            setAtt={setAtt}
           />
         </PictureLikes>
 
