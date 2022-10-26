@@ -536,6 +536,23 @@ const Organizer = styled.div`
   }
 `;
 
+const SharedContainer = styled.div`
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: -25px;
+  height: 45px;
+  background-color: #1e1e1e;
+  z-index: -2;
+  border-radius: 8px;
+`;
+
+const SharedDetails = styled.div`
+  margin: 5px 0 0 5px;
+  display: flex;
+  align-items: center;
+`;
+
 export {
   Father,
   Nav1,
@@ -567,4 +584,6 @@ export {
   Nav3,
   Title,
   Organizer,
+  SharedContainer,
+  SharedDetails,
 };

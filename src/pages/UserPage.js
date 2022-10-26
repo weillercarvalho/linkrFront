@@ -69,6 +69,8 @@ export default function UserPage() {
       });
   }, [att, location.state]);
 
+  //console.log(datas);
+
   return (
     <>
       <RenderModal
@@ -126,6 +128,10 @@ export default function UserPage() {
                   userId={Number(params.userId)}
                   loggedUserId={userId}
                   setModal={setModalIsOpen}
+                  shared={value.shared}
+                  sharerId={null || value.SharerId}
+                  sharerName={null || value.SharerName}
+                  originalUserId={null || value.OriginalUserId}
                 />
               ))
             ) : (
