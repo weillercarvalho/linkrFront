@@ -129,7 +129,6 @@ function sharePost(postId, removeShare) {
     body: { postId: postId, removeShare: removeShare },
     headers: { Authorization: `Bearer ${authToken}` },
   };
-  console.log(config);
   const promise = axios.post(`${BASE_URL}/share`, config.body, config);
   return promise;
 }
