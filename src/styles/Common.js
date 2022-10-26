@@ -159,7 +159,8 @@ const Mainline = styled.div`
     font-size: 43px;
     color: #ffffff;
     margin-bottom: 43px;
-    margin-left: 500px;
+    margin-left: ${(mobile) =>
+    mobile.mobile ? '300px' : '500px'};
   }
   header {
     display: flex;
@@ -170,7 +171,7 @@ const Mainline = styled.div`
     margin: auto auto 29px auto;
     width: ${(mobile) => (mobile.mobile ? '100%' : '40%')};
     min-width: ${(mobile) => (mobile.mobile ? '100%' : '500px')};
-    margin: ${(mobile) => (mobile.mobile ? '0' : '0 0 17px 25%')};
+    margin: ${(mobile) => (mobile.mobile ? '0 0 90px 0 ' : '0 0 17px 25%')};
   }
   input {
     font-family: 'Lato', sans-serif;
