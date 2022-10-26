@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const BASE_URL = `https://linkr-project-backend.herokuapp.com`;
-//const BASE_URL = `http://localhost:5000`;  //for local testing
+// const BASE_URL = `http://localhost:5000`;  //for local testing
 const authToken = localStorage.getItem('token');
 
 function creatingHeaders() {
@@ -21,7 +21,6 @@ function postPost(body) {
 }
 
 function getPost() {
-  //const header = creatingHeaders();
   const promise = axios.get(`${BASE_URL}/timeline`);
   return promise;
 }

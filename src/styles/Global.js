@@ -6,6 +6,7 @@ const Global = createGlobalStyle`
         .microlink_card {
             border-radius: 8px;
             width: calc(40vw - 10rem);
+            height: 70px !important;
             @media (max-width: 375px) {
                 width: 255px;
 

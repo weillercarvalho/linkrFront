@@ -170,7 +170,9 @@ export default function Home() {
           </form>
         </header>
         {/* Components above? */}
-
+        <UpdatesTimeline mobile={windowWidth <= 375 ? true : false}>
+          Teste teste teste teste teste
+        </UpdatesTimeline>
         {loading ? (
           <>
             <Loading>Loading</Loading>{' '}
@@ -213,3 +215,16 @@ const Loading = styled.p`
   font-weight: 400;
   font-size: 30px;
 `;
+
+const UpdatesTimeline = styled.button`
+  width: ${(mobile) => (mobile.mobile ? '100%' : '40%')} !important;
+  min-width: ${(mobile) => (mobile.mobile ? '100%' : '500px')} !important;
+  margin: ${(mobile) => (mobile.mobile ? '0' : '0 0 17px 25%')} !important;
+  height: 61px !important;
+  background-color: #1877f2;
+  color: #ffffff;
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  margin: 40px auto 17px auto;
+`

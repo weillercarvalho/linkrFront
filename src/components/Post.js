@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import { postLike, deleteLike } from '../services/Services';
 import { DeletePost, UpdateContainer, UpdatePost } from '../styles/Common';
 import RenderMessage from './Message';
+import circle from '../assets/images/Vector.png'
 
 let liked = false;
 export default function Post({

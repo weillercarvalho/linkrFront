@@ -152,7 +152,7 @@ const Mainline = styled.div`
   flex-direction: column;
   margin: ${(mobile) =>
     mobile.mobile ? '100px 0 0 0' : '150px auto auto auto'};
-  width: ${(mobile) => (mobile.mobile ? '100vw' : '100%')};
+  width: ${(mobile) => (mobile.mobile ? '100%' : '100%')};
   p {
     font-family: 'Oswald', sans-serif;
     font-weight: 700;
@@ -168,7 +168,9 @@ const Mainline = styled.div`
     background-color: #ffffff;
     border-radius: 16px;
     margin: auto auto 29px auto;
-    width: 40%;
+    width: ${(mobile) => (mobile.mobile ? '100%' : '40%')};
+    min-width: ${(mobile) => (mobile.mobile ? '100%' : '500px')};
+    margin: ${(mobile) => (mobile.mobile ? '0' : '0 0 17px 25%')};
   }
   input {
     font-family: 'Lato', sans-serif;
@@ -240,6 +242,7 @@ const Div1 = styled.div`
 const Div2 = styled.div`
   display: flex;
   flex-direction: column;
+  margin: auto;
 `;
 
 const Div3 = styled.div`
