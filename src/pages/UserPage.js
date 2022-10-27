@@ -65,7 +65,7 @@ export default function UserPage() {
         console.log(r);
       })
       .then((r) => {
-        setDatas(r.data.userPosts);
+        setDatas(r.data);
       });
   }, [att, location.state]);
 
@@ -118,8 +118,8 @@ export default function UserPage() {
                   link={value.Link}
                   profileName={value.Username}
                   message={value.Message}
-                  //isLiked={???}
-                  //totalLikes={???}
+                  isLiked={value.isLiked}
+                  totalLikes={value.totalLikes}
                   postId={value.PostId}
                   att={att}
                   setAtt={setAtt}
