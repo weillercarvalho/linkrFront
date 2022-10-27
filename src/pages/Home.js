@@ -79,14 +79,25 @@ export default function Home() {
       setLoading(true);
       e.preventDefault(e);
       setToggle(!toggle);
+
+      const hashtags = [];
+      let aux = post.split(" ");
+      for (let index = 0; index < aux.length; index++) {
+        const element = aux[index];
+        if(element[0] === '#'){
+          hashtags.push(element)
+        };  
+      };
+      console.log(aux, " ", hashtags);
       const body = {
         message: post,
         link: url,
+        hashtags: hashtags,
       };
       postPost(body)
         .then((r) => {
           setSize(r.data);
-          console.log(r);
+          //console.log(r);
           setPost('');
           setUrl('');
           setToggle(false);

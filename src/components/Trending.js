@@ -23,7 +23,7 @@ export default function TrendingTopics() {
         <div className="hashs">
           {hashtagsList.map((value, index) => (
             <Link key={index} to={`/hashtag/${value.id}`}>
-              <h6>{`#${value.name}`}</h6>
+              <h6>{`${value.name}`}</h6>
             </Link>
           ))}
         </div>

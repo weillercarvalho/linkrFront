@@ -30,7 +30,7 @@ export default function HashtagPage() {
         {hashtagPostList.length < 1 ? (
           ' '
         ) : (
-          <h1>#{hashtagPostList[0].hashtag}</h1>
+          <h1>{hashtagPostList[0].hashtag}</h1>
         )}
       </Title>
       <Organizer>
