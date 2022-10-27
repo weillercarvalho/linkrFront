@@ -13,11 +13,9 @@ import RenderSearchbar from '../components/Searchbar';
 import Topper from '../components/Topper';
 import Post from '../components/Post';
 import RenderModal from '../components/Modal';
+import RenderShareModal from '../components/ShareModal';
 
 export default function UserPage() {
-  const [url, setUrl] = useState('');
-  const [post, setPost] = useState('');
-  const [toggle, setToggle] = useState(false);
   const [datas, setDatas] = useState([]);
   const [userDatas, setUserDatas] = useState([]);
   const [recievedUser, setRecievedUser] = useState(false);
@@ -26,7 +24,10 @@ export default function UserPage() {
   const [loading, setLoading] = useState(false);
   const [userId, setUserId] = useState(0);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [shareModalIsOpen, setShareModalIsOpen] = useState(false);
   const [loadDelete, setLoadDelete] = useState(false);
+  const [loadShare, setLoadShare] = useState(false);
+  const [shareParameters, setShareParameters] = useState();
   const windowRef = useRef();
   const windowWidth = useContainerDimensions(windowRef).width;
   const params = useParams();
@@ -80,6 +81,16 @@ export default function UserPage() {
         setLoadDelete={setLoadDelete}
         mobile={windowWidth <= 375 ? true : false}
       />
+      <RenderShareModal
+        att={att}
+        setAtt={setAtt}
+        modalIsOpen={shareModalIsOpen}
+        setShareModalIsOpen={setShareModalIsOpen}
+        loadDeleteShare={loadShare}
+        setLoadShare={setLoadShare}
+        mobile={windowWidth <= 375 ? true : false}
+        shareParameters={shareParameters}
+      />
       <Topper
         picture={picture}
         windowRef={windowRef}
@@ -126,11 +137,13 @@ export default function UserPage() {
                   userId={Number(params.userId)}
                   loggedUserId={userId}
                   setModal={setModalIsOpen}
+                  setShareModal={setShareModalIsOpen}
                   shared={value.shared}
                   sharerId={null || value.SharerId}
                   sharerName={null || value.SharerName}
                   originalUserId={null || value.OriginalUserId}
                   reshareCount={value.reshareCount}
+                  setShareParameters={setShareParameters}
                 />
               ))
             ) : (
