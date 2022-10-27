@@ -52,7 +52,7 @@ export default function Home() {
       return setCount(size.length - datas.length);
     }
   }, 15000);
-
+  
   useEffect(() => {
     getPicture()
       .catch((r) => {
@@ -93,7 +93,6 @@ export default function Home() {
       postPost(body)
         .then((r) => {
           setSize(r.data);
-          //console.log(r);
           setPost('');
           setUrl('');
           setToggle(false);
@@ -107,7 +106,6 @@ export default function Home() {
         });
     }
   }
-
   return (
     <>
       <RenderModal
