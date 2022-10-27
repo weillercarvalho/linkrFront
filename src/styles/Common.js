@@ -556,6 +556,10 @@ const SharedDetails = styled.div`
   }
 `;
 
+const ShareButtom = styled.div`
+  margin-top: 10px;
+`;
+
 export {
   Father,
   Nav1,
@@ -589,4 +593,5 @@ export {
   Organizer,
   SharedContainer,
   SharedDetails,
+  ShareButtom,
 };

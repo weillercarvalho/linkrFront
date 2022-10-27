@@ -44,14 +44,7 @@ export function NewSharePost({
 }) {
   return (
     <ShareContainer>
-      <EnlargeIcon
-        recolor={removeShare}
-        onClick={() => {
-          userId === loggedUserId
-            ? window.alert('you cant share your own posts')
-            : setAtt(handleShare(postId, removeShare, att, setAtt));
-        }}
-      >
+      <EnlargeIcon recolor={removeShare}>
         <BiRepost />
       </EnlargeIcon>
       <span>{reshareCount} reposts</span>
@@ -59,7 +52,7 @@ export function NewSharePost({
   );
 }
 
-function handleShare(postId, removeShare, att, setAtt) {
+export function handleShare(postId, removeShare, att, setAtt) {
   if (removeShare) {
     console.log('remove share');
     sharePost(postId, removeShare)
@@ -94,5 +87,5 @@ const ShareContainer = styled.div`
 
 const EnlargeIcon = styled.div`
   font-size: 34px;
-  color: ${(props) => (props.recolor ? 'red' : 'inherit')};
+  color: 'inherit';
 `;

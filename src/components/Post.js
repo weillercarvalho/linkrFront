@@ -5,9 +5,14 @@ import { FiEdit2 } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { postLike, deleteLike } from '../services/Services';
-import { DeletePost, UpdateContainer, UpdatePost } from '../styles/Common';
+import {
+  DeletePost,
+  ShareButtom,
+  UpdateContainer,
+  UpdatePost,
+} from '../styles/Common';
 import RenderMessage from './Message';
-import { NewSharePost, SharedPost } from './Share';
+import { handleShare, NewSharePost, SharedPost } from './Share';
 
 let liked = false;
 export default function Post({
@@ -69,30 +74,50 @@ export default function Post({
 
           {isLiked ? (
             <ion-icon
-              onClick={() => disliker(postId)}
+              onClick={() => (originalUserId ? '' : disliker(postId))}
               name="heart-sharp"
             ></ion-icon>
           ) : (
             <ion-icon
-              onClick={() => liker(postId)}
+              onClick={() => (originalUserId ? '' : liker(postId))}
               name="heart-outline"
             ></ion-icon>
           )}
 
           <h6>{totalLikes} likes</h6>
-          <NewSharePost
-            postId={postId}
-            removeShare={shared && sharerId === loggedUserId}
-            userId={originalUserId ? originalUserId : userId}
-            loggedUserId={loggedUserId}
-            att={att}
-            setAtt={setAtt}
-            reshareCount={reshareCount}
-          />
+          <ShareButtom
+            onClick={() => {
+              const originalPosterId = originalUserId ? originalUserId : userId;
+              if (originalPosterId === loggedUserId) {
+                window.alert('you cant share your own posts');
+              } else {
+                if (!originalUserId) {
+                  const removeShare = shared && sharerId === loggedUserId;
+                  console.log(att);
+                  setAtt(handleShare(postId, removeShare, att, setAtt));
+                  console.log(att);
+                }
+              }
+            }}
+          >
+            <NewSharePost
+              postId={postId}
+              removeShare={shared && sharerId === loggedUserId}
+              userId={originalUserId ? originalUserId : userId}
+              loggedUserId={loggedUserId}
+              att={att}
+              setAtt={setAtt}
+              reshareCount={reshareCount}
+            />
+          </ShareButtom>
         </PictureLikes>
 
         <Content>
-          <h3 onClick={() => navigate(`/user/${originalUserId}`)}>
+          <h3
+            onClick={() =>
+              navigate(`/user/${originalUserId ? originalUserId : userId}`)
+            }
+          >
             {profileName}
           </h3>
           <RenderMessage
