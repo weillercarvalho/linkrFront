@@ -56,7 +56,7 @@ export default function Home() {
       return setCount(size.length - datas.length);
     }
   }, 15000);
-
+  
   useEffect(() => {
     getPicture()
       .catch((r) => {
@@ -97,7 +97,6 @@ export default function Home() {
       postPost(body)
         .then((r) => {
           setSize(r.data);
-          //console.log(r);
           setPost('');
           setUrl('');
           setToggle(false);
@@ -111,7 +110,6 @@ export default function Home() {
         });
     }
   }
-
   return (
     <>
       <RenderModal
@@ -298,7 +296,7 @@ const UpdatesTimeline = styled.button`
   position: ${(mobile) => (mobile.mobile ? 'fixed' : 'none')} !important;
   top: ${(mobile) => (mobile.mobile ? '500px' : 'none')} !important;
   left: ${(mobile) => (mobile.mobile ? '40px' : 'none')} !important;
-  width: ${(mobile) => (mobile.mobile ? '40%' : '40%')} !important;
+  width: 40% !important;
   min-width: ${(mobile) => (mobile.mobile ? '80%' : '500px')} !important;
   margin: ${(mobile) => (mobile.mobile ? '0' : '0 0 17px 25%')} !important;
   height: 61px !important;

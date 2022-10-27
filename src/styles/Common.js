@@ -67,7 +67,7 @@ const Father = styled.div`
   display: flex;
   flex-direction: column;
   nav {
-    width: ${(mobile) => (mobile.mobile ? '100vw' : '100vw')};
+    width: 100vw;
     height: 72px;
     position: fixed;
     top: 0px;
@@ -152,7 +152,7 @@ const Mainline = styled.div`
   flex-direction: column;
   margin: ${(mobile) =>
     mobile.mobile ? '100px 0 0 0' : '150px auto auto auto'};
-  width: ${(mobile) => (mobile.mobile ? '100%' : '100%')};
+  width: 100%;
   p {
     font-family: 'Oswald', sans-serif;
     font-weight: 700;
@@ -345,7 +345,7 @@ const BlankTimeline = styled.div`
   font-size: 60px;
 
   div {
-    margin: 35px 0 0 0;
+    margin: 35px 0 10% -9.5%;
     font-size: 42px;
   }
 `;
