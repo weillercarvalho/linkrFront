@@ -92,7 +92,9 @@ export default function Post({
         </PictureLikes>
 
         <Content>
-          <h3 onClick={() => navigate(`/user/${userId}`)}>{profileName}</h3>
+          <h3 onClick={() => navigate(`/user/${originalUserId}`)}>
+            {profileName}
+          </h3>
           <RenderMessage
             message={message}
             att={att}

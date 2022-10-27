@@ -2,8 +2,10 @@ import { SharedContainer, SharedDetails } from '../styles/Common';
 import { BiRepost } from 'react-icons/bi';
 import styled from 'styled-components';
 import { sharePost } from '../services/Services';
+import { useNavigate } from 'react-router-dom';
 
 export function SharedPost({ shared, sharerName, sharerId, userId }) {
+  const navigate = useNavigate();
   return shared ? (
     <div>
       <SharedContainer>
@@ -17,7 +19,10 @@ export function SharedPost({ shared, sharerName, sharerId, userId }) {
             </span>
           ) : (
             <span>
-              Re-posted by <Boldify>{sharerName}</Boldify>
+              Re-posted by{' '}
+              <Boldify onClick={() => navigate(`/user/${sharerId}`)}>
+                {sharerName}
+              </Boldify>
             </span>
           )}
         </SharedDetails>
@@ -44,7 +49,7 @@ export function NewSharePost({
         onClick={() => {
           userId === loggedUserId
             ? window.alert('you cant share your own posts')
-            : handleShare(postId, removeShare, att, setAtt);
+            : setAtt(handleShare(postId, removeShare, att, setAtt));
         }}
       >
         <BiRepost />
@@ -59,12 +64,16 @@ function handleShare(postId, removeShare, att, setAtt) {
     console.log('remove share');
     sharePost(postId, removeShare)
       .catch((e) => console.log(e))
-      .then((e) => setAtt(!att));
+      .then((e) => {
+        return setAtt(!att);
+      });
   } else {
     console.log('new share');
     sharePost(postId, removeShare)
       .catch((e) => console.log(e))
-      .then((e) => setAtt(!att));
+      .then((e) => {
+        return setAtt(!att);
+      });
   }
   return;
 }
