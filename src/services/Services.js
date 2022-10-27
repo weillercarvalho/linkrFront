@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-const BASE_URL = `https://linkr-project-backend.herokuapp.com`;
-// const BASE_URL = `http://localhost:5000`;  //for local testing
+//const BASE_URL = `https://linkr-project-backend.herokuapp.com`;
+const BASE_URL = `http://localhost:5000`; //for local testing
 const authToken = localStorage.getItem('token');
 
 function creatingHeaders() {
@@ -125,6 +125,14 @@ function postSignin(body) {
   return promise;
 }
 
+function sharePost(postId, removeShare) {
+  const config = {
+    body: { postId: postId, removeShare: removeShare },
+    headers: { Authorization: `Bearer ${authToken}` },
+  };
+  const promise = axios.post(`${BASE_URL}/share`, config.body, config);
+  return promise;
+}
 
 export {
   postPost,
@@ -142,4 +150,5 @@ export {
   deleteLike,
   postSignup,
   postSignin,
+  sharePost,
 };

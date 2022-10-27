@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import { postLike, deleteLike } from '../services/Services';
 import { DeletePost, UpdateContainer, UpdatePost } from '../styles/Common';
 import RenderMessage from './Message';
+import { NewSharePost, SharedPost } from './Share';
 
 let liked = false;
 export default function Post({
@@ -23,6 +24,11 @@ export default function Post({
   userId,
   loggedUserId,
   setModal,
+  shared,
+  sharerId,
+  sharerName,
+  originalUserId,
+  reshareCount,
 }) {
   liked = isLiked;
 
@@ -51,7 +57,13 @@ export default function Post({
 
   return (
     <>
-      <Posts mobile={mobile}>
+      <Posts mobile={mobile} shared={shared}>
+        <SharedPost
+          shared={shared}
+          sharerName={sharerName}
+          sharerId={sharerId}
+          userId={loggedUserId}
+        />
         <PictureLikes>
           <img src={profilePicture} alt="" />
 
@@ -68,10 +80,21 @@ export default function Post({
           )}
 
           <h6>{totalLikes} likes</h6>
+          <NewSharePost
+            postId={postId}
+            removeShare={shared && sharerId === loggedUserId}
+            userId={originalUserId ? originalUserId : userId}
+            loggedUserId={loggedUserId}
+            att={att}
+            setAtt={setAtt}
+            reshareCount={reshareCount}
+          />
         </PictureLikes>
 
         <Content>
-          <h3 onClick={() => navigate(`/user/${userId}`)}>{profileName}</h3>
+          <h3 onClick={() => navigate(`/user/${originalUserId}`)}>
+            {profileName}
+          </h3>
           <RenderMessage
             message={message}
             att={att}
@@ -89,7 +112,7 @@ export default function Post({
             />
           </MicroLinkContainer>
         </Content>
-        {loggedUserId === userId ? (
+        {loggedUserId === userId && !shared ? (
           <UpdateContainer>
             <UpdatePost
               onClick={() => {
@@ -118,7 +141,12 @@ const Posts = styled.div`
   width: ${(mobile) => (mobile.mobile ? '100%' : '40vw')};
   height: auto;
   min-width: ${(mobile) => (mobile.mobile ? '100%' : '500px')};
-  margin: ${(mobile) => (mobile.mobile ? '0' : '0 0 0 25%')};
+  margin: ${(mobile) =>
+    mobile.mobile
+      ? '15px 0 0 0'
+      : mobile.shared
+      ? '35px 0 0 25%'
+      : '10px 0 0 25%'};
   background-color: #171717;
   border-radius: 16px;
   margin-bottom: 2vh;

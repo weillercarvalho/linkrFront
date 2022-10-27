@@ -13,7 +13,7 @@ export const useContainerDimensions = (myRef) => {
       setDimensions(getDimensions());
     };
 
-    if (myRef.current) {
+    if (myRef?.current) {
       setDimensions(getDimensions());
     }
 

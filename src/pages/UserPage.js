@@ -126,6 +126,11 @@ export default function UserPage() {
                   userId={Number(params.userId)}
                   loggedUserId={userId}
                   setModal={setModalIsOpen}
+                  shared={value.shared}
+                  sharerId={null || value.SharerId}
+                  sharerName={null || value.SharerName}
+                  originalUserId={null || value.OriginalUserId}
+                  reshareCount={value.reshareCount}
                 />
               ))
             ) : (
@@ -145,16 +150,3 @@ const Loading = styled.p`
   font-weight: 400;
   font-size: 30px;
 `;
-
-const ModalStyle = {
-  content: {
-    top: '50%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    marginRight: '-50%',
-    transform: 'translate(-50%, -50%)',
-    'border-radius': '8px',
-    'background-color': '#333333',
-  },
-};

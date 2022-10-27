@@ -1,24 +1,24 @@
-import styled from "styled-components";
-import { useEffect, useRef, useState } from "react";
+import styled from 'styled-components';
+import { useEffect, useRef, useState } from 'react';
 import {
   postPost,
   getPost,
   getPicture,
   getLoggedUserId,
-} from "../services/Services";
-import { Mainline, Div1, Div2, Div3, BlankTimeline } from "../styles/Common";
-import { useContainerDimensions } from "../hooks/getContainerDimensions";
-import RenderSearchbar from "../components/Searchbar";
-import RenderModal from "../components/Modal";
-import Topper from "../components/Topper";
-import Post from "../components/Post";
-import circle from "../assets/images/Vector.png";
-import useInterval from "use-interval";
-import InfiniteScroll from "react-infinite-scroller";
+} from '../services/Services';
+import { Mainline, Div1, Div2, Div3, BlankTimeline } from '../styles/Common';
+import { useContainerDimensions } from '../hooks/getContainerDimensions';
+import RenderSearchbar from '../components/Searchbar';
+import RenderModal from '../components/Modal';
+import Topper from '../components/Topper';
+import Post from '../components/Post';
+import circle from '../assets/images/Vector.png';
+import useInterval from 'use-interval';
+import InfiniteScroll from 'react-infinite-scroller';
 
 export default function Home() {
-  const [url, setUrl] = useState("");
-  const [post, setPost] = useState("");
+  const [url, setUrl] = useState('');
+  const [post, setPost] = useState('');
   const [toggle, setToggle] = useState(false);
   const [datas, setDatas] = useState([]);
   const [att, setAtt] = useState(false);
@@ -83,8 +83,8 @@ export default function Home() {
         .then((r) => {
           setSize(r.data);
           console.log(r);
-          setPost("");
-          setUrl("");
+          setPost('');
+          setUrl('');
           setToggle(false);
           setLoading(false);
         })
@@ -121,7 +121,7 @@ export default function Home() {
           <></>
         ) : (
           <>
-            {" "}
+            {' '}
             <RenderSearchbar mobile={true} />
           </>
         )}
@@ -209,7 +209,7 @@ export default function Home() {
         )}
         {loading ? (
           <>
-            <Loading>Loading</Loading>{" "}
+            <Loading>Loading</Loading>{' '}
           </>
         ) : (
           <>
@@ -240,6 +240,11 @@ export default function Home() {
                     userId={value.userId}
                     loggedUserId={userId}
                     setModal={setModalIsOpen}
+                    shared={value.shared}
+                    sharerId={null || value.SharerId}
+                    sharerName={null || value.SharerName}
+                    originalUserId={null || value.OriginalUserId}
+                    reshareCount={value.reshareCount}
                   />
                 ))
               ) : (
@@ -256,22 +261,22 @@ export default function Home() {
 }
 
 const Loading = styled.p`
-  font-family: "Lato", sans-serif !important;
+  font-family: 'Lato', sans-serif !important;
   font-weight: 400;
   font-size: 30px;
 `;
 
 const UpdatesTimeline = styled.button`
-  position: ${(mobile) => (mobile.mobile ? "fixed" : "none")} !important;
-  top: ${(mobile) => (mobile.mobile ? "500px" : "none")} !important;
-  left: ${(mobile) => (mobile.mobile ? "40px" : "none")} !important;
-  width: ${(mobile) => (mobile.mobile ? "40%" : "40%")} !important;
-  min-width: ${(mobile) => (mobile.mobile ? "80%" : "500px")} !important;
-  margin: ${(mobile) => (mobile.mobile ? "0" : "0 0 17px 25%")} !important;
+  position: ${(mobile) => (mobile.mobile ? 'fixed' : 'none')} !important;
+  top: ${(mobile) => (mobile.mobile ? '500px' : 'none')} !important;
+  left: ${(mobile) => (mobile.mobile ? '40px' : 'none')} !important;
+  width: ${(mobile) => (mobile.mobile ? '40%' : '40%')} !important;
+  min-width: ${(mobile) => (mobile.mobile ? '80%' : '500px')} !important;
+  margin: ${(mobile) => (mobile.mobile ? '0' : '0 0 17px 25%')} !important;
   height: 61px !important;
   background-color: #1877f2;
   color: #ffffff;
-  font-family: "Lato", sans-serif;
+  font-family: 'Lato', sans-serif;
   font-weight: 400;
   font-size: 16px;
   margin: 40px auto 17px auto;
