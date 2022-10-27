@@ -33,15 +33,7 @@ export function SharedPost({ shared, sharerName, sharerId, userId }) {
   );
 }
 
-export function NewSharePost({
-  postId,
-  removeShare,
-  userId,
-  loggedUserId,
-  att,
-  setAtt,
-  reshareCount,
-}) {
+export function NewSharePost({ removeShare, reshareCount }) {
   return (
     <ShareContainer>
       <EnlargeIcon recolor={removeShare}>

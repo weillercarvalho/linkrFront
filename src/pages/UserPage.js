@@ -16,9 +16,6 @@ import RenderModal from '../components/Modal';
 import RenderShareModal from '../components/ShareModal';
 
 export default function UserPage() {
-  const [url, setUrl] = useState('');
-  const [post, setPost] = useState('');
-  const [toggle, setToggle] = useState(false);
   const [datas, setDatas] = useState([]);
   const [userDatas, setUserDatas] = useState([]);
   const [recievedUser, setRecievedUser] = useState(false);

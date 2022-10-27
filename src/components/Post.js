@@ -12,7 +12,7 @@ import {
   UpdatePost,
 } from '../styles/Common';
 import RenderMessage from './Message';
-import { handleShare, NewSharePost, SharedPost } from './Share';
+import { NewSharePost, SharedPost } from './Share';
 
 let liked = false;
 export default function Post({
@@ -118,9 +118,10 @@ export default function Post({
 
         <Content>
           <h3
-            onClick={() =>
-              navigate(`/user/${originalUserId ? originalUserId : userId}`)
-            }
+            onClick={() => {
+              const navigateId = originalUserId ? originalUserId : userId;
+              navigate(`/user/${navigateId}`);
+            }}
           >
             {profileName}
           </h3>
