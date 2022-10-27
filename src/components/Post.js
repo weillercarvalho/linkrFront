@@ -79,7 +79,7 @@ export default function Post({
             ></ion-icon>
           )}
 
-          <p>{totalLikes} likes</p>
+          <h6>{totalLikes} likes</h6>
           <NewSharePost
             postId={postId}
             removeShare={shared && sharerId === loggedUserId}
@@ -175,7 +175,7 @@ const PictureLikes = styled.div`
     margin-top: 2vh;
   }
 
-  p {
+  h6 {
     font-family: 'Lato';
     font-style: normal;
     font-weight: 400;

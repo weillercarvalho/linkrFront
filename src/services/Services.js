@@ -21,7 +21,8 @@ function postPost(body) {
 }
 
 function getPost() {
-  const promise = axios.get(`${BASE_URL}/timeline`);
+  const header = creatingHeaders();
+  const promise = axios.get(`${BASE_URL}/timeline`, header);
   return promise;
 }
 
