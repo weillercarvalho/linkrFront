@@ -61,7 +61,6 @@ export function handleShare(postId, removeShare, att, setAtt) {
         return setAtt(!att);
       });
   } else {
-    console.log('new share');
     sharePost(postId, removeShare)
       .catch((e) => console.log(e))
       .then((e) => {

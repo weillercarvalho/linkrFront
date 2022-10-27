@@ -29,11 +29,13 @@ export default function Post({
   userId,
   loggedUserId,
   setModal,
+  setShareModal,
   shared,
   sharerId,
   sharerName,
   originalUserId,
   reshareCount,
+  setShareParameters,
 }) {
   liked = isLiked;
 
@@ -59,7 +61,6 @@ export default function Post({
         return setAtt(!att);
       });
   }
-
   return (
     <>
       <Posts mobile={mobile} shared={shared}>
@@ -89,13 +90,16 @@ export default function Post({
             onClick={() => {
               const originalPosterId = originalUserId ? originalUserId : userId;
               if (originalPosterId === loggedUserId) {
-                window.alert('you cant share your own posts');
+                window.alert('you cant share your own posts/reposts');
+              } else if (userId === loggedUserId) {
+                window.alert('you cant share your own posts/reposts');
               } else {
                 if (!originalUserId) {
+                  setShareModal(postId);
                   const removeShare = shared && sharerId === loggedUserId;
-                  console.log(att);
-                  setAtt(handleShare(postId, removeShare, att, setAtt));
-                  console.log(att);
+                  setShareParameters([postId, removeShare, att, setAtt]);
+                } else {
+                  window.alert('You cant share reposts');
                 }
               }
             }}

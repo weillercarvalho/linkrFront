@@ -15,6 +15,7 @@ import Post from '../components/Post';
 import circle from '../assets/images/Vector.png';
 import useInterval from 'use-interval';
 import InfiniteScroll from 'react-infinite-scroller';
+import RenderShareModal from '../components/ShareModal';
 
 export default function Home() {
   const [url, setUrl] = useState('');
@@ -25,7 +26,10 @@ export default function Home() {
   const [picture, setPicture] = useState({});
   const [loading, setLoading] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [shareModalIsOpen, setShareModalIsOpen] = useState(false);
   const [loadDelete, setLoadDelete] = useState(false);
+  const [loadShare, setLoadShare] = useState(false);
+  const [shareParameters, setShareParameters] = useState();
   const [userId, setUserId] = useState(0);
   const [size, setSize] = useState([]);
   const [count, setCount] = useState(0);
@@ -107,6 +111,17 @@ export default function Home() {
         loadDelete={loadDelete}
         setLoadDelete={setLoadDelete}
         mobile={windowWidth <= 375 ? true : false}
+      />
+
+      <RenderShareModal
+        att={att}
+        setAtt={setAtt}
+        modalIsOpen={shareModalIsOpen}
+        setShareModalIsOpen={setShareModalIsOpen}
+        loadDeleteShare={loadShare}
+        setLoadShare={setLoadShare}
+        mobile={windowWidth <= 375 ? true : false}
+        shareParameters={shareParameters}
       />
 
       <Topper
@@ -240,11 +255,13 @@ export default function Home() {
                     userId={value.userId}
                     loggedUserId={userId}
                     setModal={setModalIsOpen}
+                    setShareModal={setShareModalIsOpen}
                     shared={value.shared}
                     sharerId={null || value.SharerId}
                     sharerName={null || value.SharerName}
                     originalUserId={null || value.OriginalUserId}
                     reshareCount={value.reshareCount}
+                    setShareParameters={setShareParameters}
                   />
                 ))
               ) : (

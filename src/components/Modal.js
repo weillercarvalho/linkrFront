@@ -98,8 +98,8 @@ const ModalStyle = {
     bottom: 'auto',
     marginRight: '-50%',
     transform: 'translate(-50%, -50%)',
-    'border-radius': '8px',
-    'background-color': '#333333',
+    borderRadius: '18px',
+    backgroundColor: '#333333',
   },
   overlay: { zIndex: 314159 },
 };
