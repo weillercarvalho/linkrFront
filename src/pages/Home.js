@@ -232,8 +232,8 @@ export default function Home() {
                     link={value.link}
                     profileName={value.name}
                     message={value.message}
-                    //isLiked={???}
-                    //totalLikes={???}
+                    isLiked={value.isLiked}
+                    totalLikes={value.totalLikes}
                     postId={value.postId}
                     att={att}
                     setAtt={setAtt}
