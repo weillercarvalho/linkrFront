@@ -12,7 +12,7 @@ import {
   Text,
   Loadder,
 } from './Login';
-import { UserContext } from '../context/Context';
+
 import { postSignup } from '../services/Services';
 
 export default function Registered() {
@@ -21,11 +21,11 @@ export default function Registered() {
   const [picture, setPicture] = useState('');
   const [password, setPassword] = useState('');
   const [disabled, setDisabled] = useState(false);
-  const { token } = useContext(UserContext);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (token) {
+    const auth = localStorage.getItem(`token`);
+    if (auth) {
       navigate('/timeline');
     }
   }, []);
