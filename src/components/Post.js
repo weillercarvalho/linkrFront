@@ -5,7 +5,12 @@ import { FiEdit2 } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { postLike, deleteLike } from "../services/Services";
-import { DeletePost, UpdateContainer, UpdatePost } from "../styles/Common";
+import {
+  DeletePost,
+  ShareButtom,
+  UpdateContainer,
+  UpdatePost,
+} from "../styles/Common";
 import RenderMessage from "./Message";
 import { NewSharePost, SharedPost } from "./Share";
 import { AiOutlineComment } from "react-icons/ai";
@@ -30,11 +35,13 @@ export default function Post({
   userId,
   loggedUserId,
   setModal,
+  setShareModal,
   shared,
   sharerId,
   sharerName,
   originalUserId,
   reshareCount,
+  setShareParameters,
 }) {
   liked = isLiked;
 
@@ -108,17 +115,17 @@ export default function Post({
 
             {isLiked ? (
               <ion-icon
-                onClick={() => disliker(postId)}
+                onClick={() => (originalUserId ? "" : disliker(postId))}
                 name="heart-sharp"
               ></ion-icon>
             ) : (
               <ion-icon
-                onClick={() => liker(postId)}
+                onClick={() => (originalUserId ? "" : liker(postId))}
                 name="heart-outline"
               ></ion-icon>
             )}
-            <h6>{totalLikes} likes</h6>
 
+            <h6>{totalLikes} likes</h6>
             <ButtonComment
               onClick={() => {
                 setDisabled(!disabled);
@@ -127,19 +134,45 @@ export default function Post({
               <AiOutlineComment style={{ fontSize: 28 }} />
             </ButtonComment>
             <h6> {comments.length} comments</h6>
-
-            <NewSharePost
-              postId={postId}
-              removeShare={shared && sharerId === loggedUserId}
-              userId={originalUserId ? originalUserId : userId}
-              loggedUserId={loggedUserId}
-              att={att}
-              setAtt={setAtt}
-              reshareCount={reshareCount}
-            />
+            <ShareButtom
+              onClick={() => {
+                const originalPosterId = originalUserId
+                  ? originalUserId
+                  : userId;
+                if (originalPosterId === loggedUserId) {
+                  window.alert("you cant share your own posts/reposts");
+                } else if (userId === loggedUserId) {
+                  window.alert("you cant share your own posts/reposts");
+                } else {
+                  if (!originalUserId) {
+                    setShareModal(postId);
+                    const removeShare = shared && sharerId === loggedUserId;
+                    setShareParameters([postId, removeShare, att, setAtt]);
+                  } else {
+                    window.alert("You cant share reposts");
+                  }
+                }
+              }}
+            >
+              <NewSharePost
+                postId={postId}
+                removeShare={shared && sharerId === loggedUserId}
+                userId={originalUserId ? originalUserId : userId}
+                loggedUserId={loggedUserId}
+                att={att}
+                setAtt={setAtt}
+                reshareCount={reshareCount}
+              />
+            </ShareButtom>
           </PictureLikes>
+
           <Content>
-            <h3 onClick={() => navigate(`/user/${originalUserId}`)}>
+            <h3
+              onClick={() => {
+                const navigateId = originalUserId ? originalUserId : userId;
+                navigate(`/user/${navigateId}`);
+              }}
+            >
               {profileName}
             </h3>
             <RenderMessage

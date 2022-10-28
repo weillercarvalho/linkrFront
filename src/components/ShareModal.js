@@ -8,19 +8,19 @@ import {
   OptionsContainer,
 } from '../styles/Common';
 import Modal from 'react-modal';
-import { deleteUserPost } from '../services/Services';
+import { handleShare } from './Share';
 
-export default function RenderModal({
+export default function RenderShareModal({
   att,
   setAtt,
   modalIsOpen,
-  setModalIsOpen,
-  loadDelete,
-  setLoadDelete,
+  setShareModalIsOpen,
+  loadShare,
   mobile,
+  shareParameters,
 }) {
   function closeModal() {
-    setModalIsOpen(false);
+    setShareModalIsOpen(false);
   }
 
   return (
@@ -31,7 +31,7 @@ export default function RenderModal({
       contentLabel="Delete Modal"
       ariaHideApp={false}
     >
-      {loadDelete ? (
+      {loadShare ? (
         <AnimationContainer>
           <div>
             <Oval
@@ -51,36 +51,32 @@ export default function RenderModal({
         </AnimationContainer>
       ) : (
         <ModalContent mobile={mobile}>
-          <ModalTitle>Are you sure you want to delete this post?</ModalTitle>
+          <ModalTitle>Do you want to re-post this link?</ModalTitle>
           <OptionsContainer>
             <CancelButtom
               onClick={(event) => {
                 event.preventDefault();
-                setModalIsOpen(false);
+                setShareModalIsOpen(false);
               }}
             >
-              No, go back
+              No, cancel
             </CancelButtom>
             <DeleteButtom
               onClick={(event) => {
                 event.preventDefault();
-                setLoadDelete(true);
-                deleteUserPost(modalIsOpen)
-                  .catch((r) => {
-                    console.log(r);
-                    window.alert(
-                      "There's been an error while deleting your post"
-                    );
-                    setModalIsOpen(false);
-                  })
-                  .then((r) => {
-                    setLoadDelete(false);
-                    setModalIsOpen(false);
-                    setAtt(!att);
-                  });
+                setAtt(
+                  handleShare(
+                    shareParameters[0],
+                    shareParameters[1],
+                    shareParameters[2],
+                    shareParameters[3]
+                  )
+                );
+                setShareModalIsOpen(false);
+                setAtt(!att);
               }}
             >
-              Yes, delete it
+              Yes, share!
             </DeleteButtom>
           </OptionsContainer>
         </ModalContent>

@@ -7,24 +7,15 @@ import Registered from './pages/Registered';
 import UserPage from './pages/UserPage';
 import ErrorPage from './pages/Error';
 import PrivatePage from './services/PrivatePage';
-import { UserContext } from './context/Context';
-import { useState } from 'react';
 import TrendingTopics from './components/Trending';
 import HashtagPage from './pages/HashtagPage';
 
 export default function App() {
-  const [token, setToken] = useState(false);
 
-  const auth = localStorage.getItem(`token`);
-
-  if (auth && token === false) {
-    return setToken(auth);
-  }
 
   return (
     <>
       <Reset />
-      <UserContext.Provider value={{ token, setToken }}>
         <Global />
         <BrowserRouter>
           <Routes>
@@ -58,7 +49,6 @@ export default function App() {
             />
           </Routes>
         </BrowserRouter>
-      </UserContext.Provider>
     </>
   );
 }

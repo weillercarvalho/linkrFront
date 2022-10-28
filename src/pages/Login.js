@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { useContext, useEffect, useState } from 'react';
-import { UserContext } from '../context/Context';
+import {useEffect, useState } from 'react';
+
 import { postSignin } from '../services/Services';
 
 export default function Login() {
@@ -10,10 +10,11 @@ export default function Login() {
   const [disabled, setDisabled] = useState(false);
   const navigate = useNavigate();
 
-  const { token } = useContext(UserContext);
 
+  
   useEffect(() => {
-    if (token) {
+    const auth = localStorage.getItem(`token`);
+    if (auth) {
       navigate('/timeline');
     }
   }, []);
