@@ -94,9 +94,9 @@ function getTrendingTopics() {
   return promise;
 }
 
-function getHashtagPosts(id) {
+function getHashtagPosts({hashtag}) {
   const header = creatingHeaders();
-  const promise = axios.get(`${BASE_URL}/hashtag/${id}`, header);
+  const promise = axios.get(`${BASE_URL}/hashtag/${hashtag}`, header);
   return promise;
 }
 
@@ -128,6 +128,12 @@ function postSignin(body) {
   return promise;
 }
 
+function getUserId(){
+  const header = creatingHeaders();
+  const promise = axios.get(`${BASE_URL}/likeid`, header);
+  return promise;
+
+}
 function sharePost(postId, removeShare) {
   const config = {
     body: { postId: postId, removeShare: removeShare },
@@ -145,15 +151,21 @@ function postComment({ body, postId }) {
   const promisse = axios.post(`${BASE_URL}/comments/${postId}`, body, header);
   return promisse;
 }
+function getHashId(str){
+  const promisse = axios.post(`${BASE_URL}/hashtagid`, {"name":str});
+  return promisse;
+}
 
 export {
   postPost,
   getPost,
+  getHashId,
   getPicture,
   getUserPosts,
   getUserData,
   getSearchUsers,
   getLoggedUserId,
+  getUserId,
   deleteUserPost,
   updateUserPost,
   getTrendingTopics,

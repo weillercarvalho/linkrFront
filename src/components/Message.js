@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
-import { updateUserPost } from '../services/Services';
+import { updateUserPost, getHashId } from '../services/Services';
 import { EditForms, EditInput } from '../styles/Common';
+import { useNavigate } from 'react-router-dom';
+import { ReactTagify } from 'react-tagify';
 
 export default function RenderMessage({
   message,
@@ -15,6 +17,13 @@ export default function RenderMessage({
   const [submitted, setSubmitted] = useState(false);
   const [newMessage, setNewMessage] = useState({});
   const inputRef = useRef();
+  const navigate = useNavigate();
+
+  const tagStyle ={
+    fontWeigth: 700,
+    cursor:'pointer',
+    fontSize: '20px'
+  };
 
   useEffect(() => {
     if (inputRef.current) {
@@ -38,6 +47,20 @@ export default function RenderMessage({
         });
     }
   }, [submitted]);
+
+  async function goToHashtagPage(str){
+    try{
+      const hash = await getHashId(str);
+      console.log(hash.data);
+      if(hash.data.length < 1){
+        return;
+      }else 
+      return navigate(`/hashtag/${hash.data[0].id}`)
+    }catch(err){
+      console.log(err.message);
+      alert("problema")
+    }
+  }
 
   return shouldEdit ? (
     <EditForms
@@ -72,6 +95,10 @@ export default function RenderMessage({
       ></EditInput>
     </EditForms>
   ) : (
-    <span>{message}</span>
+    <ReactTagify
+    tagStyle={tagStyle}
+    tagClicked={(tag)=>goToHashtagPage(tag)}>
+      <span>{message}</span>
+    </ReactTagify>
   );
 }
