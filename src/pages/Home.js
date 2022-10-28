@@ -33,6 +33,7 @@ export default function Home() {
   const [userId, setUserId] = useState(0);
   const [size, setSize] = useState([]);
   const [count, setCount] = useState(0);
+  const [plus,setPlus] = useState(true);
 
   const componentRef = useRef();
   const { width } = useContainerDimensions(componentRef);
@@ -40,14 +41,7 @@ export default function Home() {
   const windowWidth = useContainerDimensions(windowRef).width;
 
   useEffect(() => {
-    getPost()
-      .catch((r) => {
-        console.log(r);
-      })
-      .then((r) => {
-        setDatas(r.data);
-      });
-  }, [att]);
+    getPost().then((r) => setDatas(r.data)).catch(r => console.log(r))}, [att]);
 
   useInterval(() => {
     if (size.length - datas.length === 0 || size.length - datas.length < 0) {
@@ -70,9 +64,7 @@ export default function Home() {
       .then((r) => setUserId(r.data.userId));
   }, []);
 
-  function loadingmore() {
-    return datas.splice(10);
-  }
+
 
   function handlepost(e) {
     if (loading === false) {
@@ -110,6 +102,29 @@ export default function Home() {
         });
     }
   }
+
+  function plusValue(value, value2) {
+    if (value !== 0 && value2.length === 0) {
+      setPlus(!plus);
+    }
+  }
+  let message;
+
+  function loadInformation() {
+    const offset = 10;
+    const value = getPost(offset);
+    value.then((r) => {
+      plusValue(offset, r.data);
+      setDatas([...datas, ...r.data]);
+      if (datas.length < 1) {
+        message = `Empty timeline.`
+      }
+    })
+    .catch((r) => {
+      message = r;
+    })
+  }
+
   return (
     <>
       <RenderModal
@@ -238,12 +253,11 @@ export default function Home() {
         ) : (
           <>
             <InfiniteScroll
-              pageStart={0}
-              loadMore={loadingmore}
-              hasMore={true}
+              loadMore={loadInformation}
+              hasMore={plus}
               loader={
                 <div className="loader" key={0}>
-                  Loading ...
+                  {message}
                 </div>
               }
             >
@@ -275,7 +289,7 @@ export default function Home() {
                 ))
               ) : (
                 <BlankTimeline>
-                  <div>empty timeline</div>
+                  <div>{message}</div>
                 </BlankTimeline>
               )}
             </InfiniteScroll>
@@ -292,7 +306,7 @@ const Loading = styled.p`
   font-size: 30px;
 `;
 
-const UpdatesTimeline = styled.button`
+const UpdatesTimeline = styled.div`
   position: ${(mobile) => (mobile.mobile ? 'fixed' : 'none')} !important;
   top: ${(mobile) => (mobile.mobile ? '500px' : 'none')} !important;
   left: ${(mobile) => (mobile.mobile ? '40px' : 'none')} !important;
@@ -306,6 +320,16 @@ const UpdatesTimeline = styled.button`
   font-weight: 400;
   font-size: 16px;
   margin: 40px auto 17px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  &:hover{
+    cursor:pointer
+  }
+  &:active{
+    transform:scale(0.9)
+  }
   img {
     width: 22px !important;
     height: 16px !important;
