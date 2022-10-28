@@ -6,7 +6,12 @@ import {
   getUserPosts,
   getLoggedUserId,
 } from '../services/Services';
-import { Mainline, UsernameTitle, BlankTimeline } from '../styles/Common';
+import {
+  Mainline,
+  UsernameTitle,
+  BlankTimeline,
+  TitleContainer,
+} from '../styles/Common';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useContainerDimensions } from '../hooks/getContainerDimensions';
 import RenderSearchbar from '../components/Searchbar';
@@ -14,6 +19,7 @@ import Topper from '../components/Topper';
 import Post from '../components/Post';
 import RenderModal from '../components/Modal';
 import RenderShareModal from '../components/ShareModal';
+import FollowButtom from '../components/Follow';
 
 export default function UserPage() {
   const [datas, setDatas] = useState([]);
@@ -110,9 +116,16 @@ export default function UserPage() {
           <div>
             <img src={userDatas.picture} alt="" />
           </div>
-          <div>
+          <TitleContainer>
             {userDatas.name ? `${userDatas.name}'s posts` : 'User not found'}
-          </div>
+            {userDatas.name && userId !== Number(params.userId) ? (
+              <>
+                <FollowButtom userId={Number(params.userId)} />
+              </>
+            ) : (
+              <></>
+            )}
+          </TitleContainer>
         </UsernameTitle>
         {loading ? (
           <>
