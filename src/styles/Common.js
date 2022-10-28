@@ -317,6 +317,7 @@ const SearchImg = styled.img`
 
 const UsernameTitle = styled.div`
   font-family: 'Oswald', sans-serif;
+  position: relative;
   font-weight: 700;
   font-size: 43px;
   color: #ffffff;
@@ -330,6 +331,9 @@ const UsernameTitle = styled.div`
   div {
     margin: 0 10px 0 0;
     height: 50px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
   }
 
   img {
@@ -566,6 +570,10 @@ const ShareButtom = styled.div`
   margin-top: 10px;
 `;
 
+const TitleContainer = styled.div`
+  display: flex;
+`;
+
 export {
   Father,
   Nav1,
@@ -600,4 +608,5 @@ export {
   SharedContainer,
   SharedDetails,
   ShareButtom,
+  TitleContainer,
 };

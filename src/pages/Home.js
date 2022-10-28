@@ -131,10 +131,6 @@ export default function Home() {
       });
   }
 
-  function deleteThisFunctionLater() {
-    console.log('calling this function');
-  }
-
   return (
     <>
       <RenderModal
