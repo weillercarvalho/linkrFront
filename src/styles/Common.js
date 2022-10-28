@@ -294,6 +294,8 @@ const SearchBar = styled.div`
 const SearchResults = styled.div`
   width: ${(mobile) => (mobile.mobile ? '90vw' : '60vw')};
   height: auto;
+  max-height: 400px;
+  overflow-y: scroll;
   background-color: #e7e7e7;
   color: black;
   display: grid;

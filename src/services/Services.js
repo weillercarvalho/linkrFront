@@ -1,11 +1,11 @@
-import axios from "axios";
+import axios from 'axios';
 
 //const BASE_URL = `https://linkr-project-backend.herokuapp.com`;
 const BASE_URL = `http://localhost:5000`; //for local testing
-const authToken = localStorage.getItem("token");
+const authToken = localStorage.getItem('token');
 
 function creatingHeaders() {
-  const auth = localStorage.getItem("token");
+  const auth = localStorage.getItem('token');
   const header = {
     headers: {
       Authorization: `Bearer ${auth}`,
@@ -20,9 +20,12 @@ function postPost(body) {
   return promise;
 }
 
-function getPost(offset) {
+function getPost(offset = 0) {
   const header = creatingHeaders();
-  const promise = axios.get(`${BASE_URL}/timeline?limit=10&offset=${offset}`, header);
+  const promise = axios.get(
+    `${BASE_URL}/timeline?limit=10&offset=${offset}`,
+    header
+  );
   return promise;
 }
 
@@ -50,7 +53,7 @@ function getUserData({ userId }) {
 }
 
 function getSearchUsers(namePrototype) {
-  const nameParameter = namePrototype + "%";
+  const nameParameter = namePrototype + '%';
   const config = {
     params: { name: nameParameter },
     headers: { Authorization: `Bearer ${authToken}` },
