@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { getTrendingTopics } from '../services/Services';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-export default function TrendingTopics() {
+export default function TrendingTopics({setAtt, att}) {
   const [hashtagsList, SetHashtagsList] = useState([]);
   useEffect(() => {
     getTrendingTopics()
@@ -15,6 +16,13 @@ export default function TrendingTopics() {
       });
   }, []);
 
+  const navigate = useNavigate();
+  function goToPage(str){
+    navigate(`/hashtag/${str}`);
+    window.location.reload();
+    //setAtt(att)
+  }
+
   return (
     <>
       <Trending>
@@ -22,9 +30,7 @@ export default function TrendingTopics() {
         <div className="division"></div>
         <div className="hashs">
           {hashtagsList.map((value, index) => (
-            <Link key={index} to={`/hashtag/${value.id}`}>
-              <h6>{`${value.name}`}</h6>
-            </Link>
+              <h6 onClick={()=> {goToPage(value.id)}}>{`${value.name}`}</h6>
           ))}
         </div>
       </Trending>

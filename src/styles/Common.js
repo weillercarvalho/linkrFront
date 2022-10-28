@@ -159,7 +159,7 @@ const Mainline = styled.div`
     font-size: 43px;
     color: #ffffff;
     margin-bottom: 43px;
-    margin-left: ${(mobile) => (mobile.mobile ? '300px' : '500px')};
+    margin-left: ${(mobile) => (mobile.mobile ? '300px' : '25%')};
   }
   header {
     position: relative;

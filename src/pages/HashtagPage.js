@@ -126,7 +126,10 @@ export default function UserPage() {
           </>
         ) : (
           <>
-          <TrendingTopics/>
+          <TrendingTopics
+            setAtt={setAtt}
+            att={att}
+            />
             {datas[0] ? (
               datas.map((value, index) => (
                 <Post
