@@ -266,8 +266,10 @@ const SearchBar = styled.div`
   color: black;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
-  border-bottom-left-radius: ${({ bottom }) => (bottom ? 8 : 0)}px;
-  border-bottom-right-radius: ${({ bottom }) => (bottom ? 8 : 0)}px;
+  border-bottom-left-radius: ${({ bottom, expanded }) =>
+    bottom ? 8 : expanded ? 0 : 8}px;
+  border-bottom-right-radius: ${({ bottom, expanded }) =>
+    bottom ? 8 : expanded ? 0 : 8}px;
   display: flex;
   justify-content: space-between;
   align-items: ${(mobile) => (mobile.mobile ? 'center' : 'auto')};
@@ -289,13 +291,15 @@ const SearchBar = styled.div`
 
 const SearchResults = styled.div`
   width: ${(mobile) => (mobile.mobile ? '90vw' : '60vw')};
-  height: auto;
+  height: ${(expanded) => (expanded.expanded ? 'auto' : '0')};
   background-color: #e7e7e7;
   color: black;
   display: grid;
-  padding: 15px 0 0 15px;
+  padding: ${(expanded) => (expanded.expanded ? '0' : '0')};
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
+  max-height: 400px;
+  overflow-y: scroll;
 `;
 
 const SearchResult = styled.div`

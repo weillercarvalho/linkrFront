@@ -56,7 +56,7 @@ export default function Home() {
       return setCount(size.length - datas.length);
     }
   }, 15000);
-  
+
   useEffect(() => {
     getPicture()
       .catch((r) => {
@@ -81,14 +81,14 @@ export default function Home() {
       setToggle(!toggle);
 
       const hashtags = [];
-      let aux = post.split(" ");
+      let aux = post.split(' ');
       for (let index = 0; index < aux.length; index++) {
         const element = aux[index];
-        if(element[0] === '#'){
-          hashtags.push(element)
-        };  
-      };
-      console.log(aux, " ", hashtags);
+        if (element[0] === '#') {
+          hashtags.push(element);
+        }
+      }
+      console.log(aux, ' ', hashtags);
       const body = {
         message: post,
         link: url,
