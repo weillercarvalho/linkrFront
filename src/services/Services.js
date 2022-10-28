@@ -136,6 +136,15 @@ function sharePost(postId, removeShare) {
   const promise = axios.post(`${BASE_URL}/share`, config.body, config);
   return promise;
 }
+function getComments(postId) {
+  const promisse = axios.get(`${BASE_URL}/comments/${postId}`);
+  return promisse;
+}
+function postComment({ body, postId }) {
+  const header = creatingHeaders();
+  const promisse = axios.post(`${BASE_URL}/comments/${postId}`, body, header);
+  return promisse;
+}
 
 export {
   postPost,
@@ -154,4 +163,6 @@ export {
   postSignup,
   postSignin,
   sharePost,
+  getComments,
+  postComment,
 };
