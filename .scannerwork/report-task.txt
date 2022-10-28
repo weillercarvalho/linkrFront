@@ -1,6 +1,0 @@
-projectKey=projeto17-linkrfront
-serverUrl=http://localhost:9000
-serverVersion=9.6.1.59531
-dashboardUrl=http://localhost:9000/dashboard?id=projeto17-linkrfront
-ceTaskId=AYQazQWFq7nQa-Q7IYaf
-ceTaskUrl=http://localhost:9000/api/ce/task?id=AYQazQWFq7nQa-Q7IYaf
