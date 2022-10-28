@@ -1,11 +1,11 @@
-import axios from 'axios';
+import axios from "axios";
 
-const BASE_URL = `https://linkr-project-backend.herokuapp.com`;
-// const BASE_URL = `http://localhost:5000`; //for local testing
-const authToken = localStorage.getItem('token');
+//const BASE_URL = `https://linkr-project-backend.herokuapp.com`;
+const BASE_URL = `http://localhost:5000`; //for local testing
+const authToken = localStorage.getItem("token");
 
 function creatingHeaders() {
-  const auth = localStorage.getItem('token');
+  const auth = localStorage.getItem("token");
   const header = {
     headers: {
       Authorization: `Bearer ${auth}`,
@@ -50,7 +50,7 @@ function getUserData({ userId }) {
 }
 
 function getSearchUsers(namePrototype) {
-  const nameParameter = namePrototype + '%';
+  const nameParameter = namePrototype + "%";
   const config = {
     params: { name: nameParameter },
     headers: { Authorization: `Bearer ${authToken}` },
@@ -133,6 +133,15 @@ function sharePost(postId, removeShare) {
   const promise = axios.post(`${BASE_URL}/share`, config.body, config);
   return promise;
 }
+function getComments(postId) {
+  const promisse = axios.get(`${BASE_URL}/comments/${postId}`);
+  return promisse;
+}
+function postComment({ body, postId }) {
+  const header = creatingHeaders();
+  const promisse = axios.post(`${BASE_URL}/comments/${postId}`, body, header);
+  return promisse;
+}
 
 export {
   postPost,
@@ -151,4 +160,6 @@ export {
   postSignup,
   postSignin,
   sharePost,
+  getComments,
+  postComment,
 };
