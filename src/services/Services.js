@@ -20,9 +20,12 @@ function postPost(body) {
   return promise;
 }
 
-function getPost(offset) {
+function getPost(offset = 0) {
   const header = creatingHeaders();
-  const promise = axios.get(`${BASE_URL}/timeline?limit=10&offset=${offset}`, header);
+  const promise = axios.get(
+    `${BASE_URL}/timeline?limit=10&offset=${offset}`,
+    header
+  );
   return promise;
 }
 

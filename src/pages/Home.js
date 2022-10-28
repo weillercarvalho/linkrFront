@@ -14,7 +14,7 @@ import Topper from '../components/Topper';
 import Post from '../components/Post';
 import circle from '../assets/images/Vector.png';
 import useInterval from 'use-interval';
-import InfiniteScroll from 'react-infinite-scroller';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import RenderShareModal from '../components/ShareModal';
 
 export default function Home() {
@@ -33,7 +33,8 @@ export default function Home() {
   const [userId, setUserId] = useState(0);
   const [size, setSize] = useState([]);
   const [count, setCount] = useState(0);
-  const [plus,setPlus] = useState(true);
+  const [hasMore, setHasMore] = useState(false);
+  const [plus, setPlus] = useState(true);
 
   const componentRef = useRef();
   const { width } = useContainerDimensions(componentRef);
@@ -41,7 +42,10 @@ export default function Home() {
   const windowWidth = useContainerDimensions(windowRef).width;
 
   useEffect(() => {
-    getPost().then((r) => setDatas(r.data)).catch(r => console.log(r))}, [att]);
+    getPost()
+      .then((r) => setDatas(r.data))
+      .catch((r) => console.log(r));
+  }, [att]);
 
   useInterval(() => {
     if (size.length - datas.length === 0 || size.length - datas.length < 0) {
@@ -64,8 +68,6 @@ export default function Home() {
       .then((r) => setUserId(r.data.userId));
   }, []);
 
-
-
   function handlepost(e) {
     if (loading === false) {
       setLoading(true);
@@ -80,7 +82,6 @@ export default function Home() {
           hashtags.push(element);
         }
       }
-      console.log(aux, ' ', hashtags);
       const body = {
         message: post,
         link: url,
@@ -104,25 +105,34 @@ export default function Home() {
   }
 
   function plusValue(value, value2) {
-    if (value !== 0 && value2.length === 0) {
-      setPlus(!plus);
+    if (value === value2) {
+      //setPlus(false);
+      console.log('limit achieved?');
     }
   }
   let message;
 
-  function loadInformation() {
-    const offset = 10;
-    const value = getPost(offset);
-    value.then((r) => {
-      plusValue(offset, r.data);
-      setDatas([...datas, ...r.data]);
-      if (datas.length < 1) {
-        message = `Empty timeline.`
-      }
-    })
-    .catch((r) => {
-      message = r;
-    })
+  async function loadInformation() {
+    const offset = datas.length;
+    console.log(datas.length);
+    console.log('loading new information');
+
+    await getPost(offset)
+      .then((r) => {
+        plusValue(offset, r.data.length);
+
+        setDatas([...datas, ...r.data]);
+        if (datas.length < 1) {
+          message = `Empty timeline.`;
+        }
+      })
+      .catch((r) => {
+        message = r;
+      });
+  }
+
+  function deleteThisFunctionLater() {
+    console.log('calling this function');
   }
 
   return (
@@ -253,7 +263,8 @@ export default function Home() {
         ) : (
           <>
             <InfiniteScroll
-              loadMore={loadInformation}
+              dataLength={datas.length}
+              next={loadInformation}
               hasMore={plus}
               loader={
                 <div className="loader" key={0}>
@@ -324,11 +335,11 @@ const UpdatesTimeline = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 5px;
-  &:hover{
-    cursor:pointer
+  &:hover {
+    cursor: pointer;
   }
-  &:active{
-    transform:scale(0.9)
+  &:active {
+    transform: scale(0.9);
   }
   img {
     width: 22px !important;
