@@ -46,7 +46,7 @@ export default function Post({
   liked = isLiked;
 
   const [shouldEdit, setShouldEdit] = useState(false);
-  const [showComments, setShowComments] = useState(false);
+  const [showComments, setShowComments] = useState(!false);
   const [comments, setComments] = useState([]);
   const [sendMessage, setSendMessage] = useState('');
   const [disabled, setDisabled] = useState(false);
@@ -74,10 +74,10 @@ export default function Post({
       });
   }
   useEffect(() => {
-    setShowComments(!showComments);
+    //setShowComments(!showComments);
     getComments(postId)
       .then((resp) => {
-        setComments(resp.data);
+        setComments(resp.data.reverse());
       })
       .catch((error) => {
         alert(error.response.data.error);
@@ -127,7 +127,7 @@ export default function Post({
             <h6>{totalLikes} likes</h6>
             <ButtonComment
               onClick={() => {
-                setDisabled(!disabled);
+                setShowComments(!showComments);
               }}
             >
               <AiOutlineComment style={{ fontSize: 28 }} />
@@ -213,7 +213,7 @@ export default function Post({
         </ContainerConteudo>
         {Comments ? (
           <Comments>
-            {comments.reverse().map((value) => (
+            {comments.map((value, i) => (
               <BlockComment
                 message={value.message}
                 profilePicture={value.picture}
@@ -235,7 +235,7 @@ export default function Post({
           ) : (
             <>
               <Img src={profilePicture} alt="" />
-              <Form>
+              <Form onSubmit={(event) => event.preventDefault()}>
                 <Input
                   style={{ fontSize: 13, margin: 0 }}
                   placeholder="write a comment..."
@@ -243,7 +243,7 @@ export default function Post({
                   onChange={(event) => setSendMessage(event.target.value)}
                 ></Input>
                 <IoPaperPlaneOutline
-                  onClick={insertComments}
+                  onClick={() => insertComments()}
                   style={{
                     fontSize: 24.5,
                     borderStyle: 'none',
