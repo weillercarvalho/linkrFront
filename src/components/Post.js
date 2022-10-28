@@ -1,22 +1,22 @@
-import Microlink from "@microlink/react";
-import { useState, useEffect } from "react";
-import { AiOutlineDelete } from "react-icons/ai";
-import { FiEdit2 } from "react-icons/fi";
-import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import { postLike, deleteLike } from "../services/Services";
+import Microlink from '@microlink/react';
+import { useState, useEffect } from 'react';
+import { AiOutlineDelete } from 'react-icons/ai';
+import { FiEdit2 } from 'react-icons/fi';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import { postLike, deleteLike } from '../services/Services';
 import {
   DeletePost,
   ShareButtom,
   UpdateContainer,
   UpdatePost,
-} from "../styles/Common";
-import RenderMessage from "./Message";
-import { NewSharePost, SharedPost } from "./Share";
-import { AiOutlineComment } from "react-icons/ai";
-import { IoPaperPlaneOutline } from "react-icons/io5";
-import { getComments, postComment } from "../services/Services";
-import BlockComment from "./BlockComment.js";
+} from '../styles/Common';
+import RenderMessage from './Message';
+import { NewSharePost, SharedPost } from './Share';
+import { AiOutlineComment } from 'react-icons/ai';
+import { IoPaperPlaneOutline } from 'react-icons/io5';
+import { getComments, postComment } from '../services/Services';
+import BlockComment from './BlockComment.js';
 
 let liked = false;
 let showComents = false;
@@ -48,7 +48,7 @@ export default function Post({
   const [shouldEdit, setShouldEdit] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const [comments, setComments] = useState([]);
-  const [sendMessage, setSendMessage] = useState("");
+  const [sendMessage, setSendMessage] = useState('');
   const [disabled, setDisabled] = useState(false);
   showComents = showComments;
 
@@ -73,7 +73,6 @@ export default function Post({
         return setAtt(!att);
       });
   }
-
   useEffect(() => {
     setShowComments(!showComments);
     getComments(postId)
@@ -93,7 +92,7 @@ export default function Post({
     postComment({ userId, postId, body })
       .then((resp) => {
         setDisabled(!disabled);
-        setSendMessage("");
+        setSendMessage('');
       })
       .catch((error) => {
         alert(error.response.data.error);
@@ -103,24 +102,24 @@ export default function Post({
   return (
     <>
       <Posts mobile={mobile} shared={shared}>
+        <SharedPost
+          shared={shared}
+          sharerName={sharerName}
+          sharerId={sharerId}
+          userId={loggedUserId}
+        />
         <ContainerConteudo>
-          <SharedPost
-            shared={shared}
-            sharerName={sharerName}
-            sharerId={sharerId}
-            userId={loggedUserId}
-          />
           <PictureLikes>
             <img src={profilePicture} alt="" />
 
             {isLiked ? (
               <ion-icon
-                onClick={() => (originalUserId ? "" : disliker(postId))}
+                onClick={() => (originalUserId ? '' : disliker(postId))}
                 name="heart-sharp"
               ></ion-icon>
             ) : (
               <ion-icon
-                onClick={() => (originalUserId ? "" : liker(postId))}
+                onClick={() => (originalUserId ? '' : liker(postId))}
                 name="heart-outline"
               ></ion-icon>
             )}
@@ -140,16 +139,16 @@ export default function Post({
                   ? originalUserId
                   : userId;
                 if (originalPosterId === loggedUserId) {
-                  window.alert("you cant share your own posts/reposts");
+                  window.alert('you cant share your own posts/reposts');
                 } else if (userId === loggedUserId) {
-                  window.alert("you cant share your own posts/reposts");
+                  window.alert('you cant share your own posts/reposts');
                 } else {
                   if (!originalUserId) {
                     setShareModal(postId);
                     const removeShare = shared && sharerId === loggedUserId;
                     setShareParameters([postId, removeShare, att, setAtt]);
                   } else {
-                    window.alert("You cant share reposts");
+                    window.alert('You cant share reposts');
                   }
                 }
               }}
@@ -186,7 +185,7 @@ export default function Post({
 
             <MicroLinkContainer mobile={mobile}>
               <Microlink
-                size={mobile ? "small" : "normal"}
+                size={mobile ? 'small' : 'normal'}
                 url={link}
                 direction="rtl"
               />
@@ -214,7 +213,7 @@ export default function Post({
         </ContainerConteudo>
         {Comments ? (
           <Comments>
-            {comments.map((value) => (
+            {comments.reverse().map((value) => (
               <BlockComment
                 message={value.message}
                 profilePicture={value.picture}
@@ -225,26 +224,35 @@ export default function Post({
             ))}
           </Comments>
         ) : (
-          "loading"
+          'loading'
         )}
         <SendMessage>
-          <Img src={profilePicture} alt="" />
-          <Form>
-            <Input
-              style={{ fontSize: 13, margin: 0 }}
-              placeholder="write a comment..."
-              value={sendMessage}
-              onChange={(event) => setSendMessage(event.target.value)}
-            ></Input>
-            <IoPaperPlaneOutline
-              onClick={insertComments}
-              style={{
-                fontSize: 24.5,
-                borderStyle: "none",
-                marginLeft: 5,
-              }}
-            />
-          </Form>
+          {shared ? (
+            <SharedComment>
+              <Img src={profilePicture} alt="" />
+              <span>You cant comment on reposts</span>
+            </SharedComment>
+          ) : (
+            <>
+              <Img src={profilePicture} alt="" />
+              <Form>
+                <Input
+                  style={{ fontSize: 13, margin: 0 }}
+                  placeholder="write a comment..."
+                  value={sendMessage}
+                  onChange={(event) => setSendMessage(event.target.value)}
+                ></Input>
+                <IoPaperPlaneOutline
+                  onClick={insertComments}
+                  style={{
+                    fontSize: 24.5,
+                    borderStyle: 'none',
+                    marginLeft: 5,
+                  }}
+                />
+              </Form>
+            </>
+          )}
         </SendMessage>
       </Posts>
     </>
@@ -269,13 +277,14 @@ const Form = styled.form`
 `;
 
 const SendMessage = styled.div`
-  display: ${() => (showComents ? "none" : "flex")};
+  display: ${() => (showComents ? 'none' : 'flex')};
   height: 60px;
   padding: 2vh;
 `;
 
 const Comments = styled.div`
-  display: ${() => (showComents ? "none" : "")};
+  overflow: scroll;
+  display: ${() => (showComents ? 'none' : '')};
 `;
 
 const Input = styled.input`
@@ -303,17 +312,16 @@ const ButtonComment = styled.div`
 
 const Posts = styled.div`
   position: relative;
-  width: ${(mobile) => (mobile.mobile ? "100%" : "40vw")};
+  width: ${(mobile) => (mobile.mobile ? '100%' : '40vw')};
   height: auto;
   max-height: 600px;
-  overflow: scroll;
-  min-width: ${(mobile) => (mobile.mobile ? "100%" : "500px")};
+  min-width: ${(mobile) => (mobile.mobile ? '100%' : '500px')};
   margin: ${(mobile) =>
     mobile.mobile
-      ? "15px 0 0 0"
+      ? '15px 0 0 0'
       : mobile.shared
-      ? "35px 0 0 25%"
-      : "10px 0 0 25%"};
+      ? '35px 0 0 25%'
+      : '10px 0 0 25%'};
 
   background-color: #1e1e1e;
   border-radius: 16px;
@@ -339,13 +347,13 @@ const PictureLikes = styled.div`
   }
   ion-icon {
     font-size: 29px;
-    color: ${(props) => (liked ? "#AC0000" : "#ffffff")};
+    color: ${(props) => (liked ? '#AC0000' : '#ffffff')};
     cursor: pointer;
     margin-top: 2vh;
   }
 
   h6 {
-    font-family: "Lato";
+    font-family: 'Lato';
     font-style: normal;
     font-weight: 400;
     font-size: 11px;
@@ -364,7 +372,7 @@ const Content = styled.div`
   flex-direction: column;
 
   h3 {
-    font-family: "Lato";
+    font-family: 'Lato';
     font-style: normal;
     font-weight: 400;
     font-size: 19px;
@@ -374,7 +382,7 @@ const Content = styled.div`
   }
 
   p {
-    font-family: "Lato";
+    font-family: 'Lato';
     font-style: normal;
     font-weight: 400;
     font-size: 17px;
@@ -383,7 +391,7 @@ const Content = styled.div`
     margin: 1vh 0;
   }
   a {
-    font-family: "Lato";
+    font-family: 'Lato';
     font-style: normal;
     font-weight: 400;
     font-size: 17px;
@@ -431,4 +439,11 @@ const MicroLinkContainer = styled.div`
   --microlink-border-radius: 5px;
   --microlink-hover-background-color: #151515;
   --microlink-font-size: 20px;
+`;
+
+const SharedComment = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 `;

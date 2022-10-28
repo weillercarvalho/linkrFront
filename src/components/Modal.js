@@ -69,7 +69,7 @@ export default function RenderModal({
                   .catch((r) => {
                     console.log(r);
                     window.alert(
-                      "There's been an error while deleting your post"
+                      "There's been an error while deleting your post, please try again"
                     );
                     setModalIsOpen(false);
                   })
