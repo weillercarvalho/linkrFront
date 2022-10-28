@@ -162,6 +162,7 @@ const Mainline = styled.div`
     margin-left: ${(mobile) => (mobile.mobile ? '300px' : '500px')};
   }
   header {
+    position: relative;
     display: flex;
     flex-direction: row;
     height: 209px;
@@ -187,6 +188,9 @@ const Mainline = styled.div`
     margin: 20px 10px 10px 10px;
   }
   button {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
     width: 112px;
     height: 31px;
     border-radius: 5px;
