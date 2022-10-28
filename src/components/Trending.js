@@ -45,6 +45,10 @@ const Trending = styled.div`
   box-sizing: border-box;
   margin-left: 2vw;
   padding-bottom: 2vh;
+  position: fixed;
+  top: 235px;
+  left: 65vw;
+  z-index: 15;
 
   a {
     text-decoration: none;
@@ -85,5 +89,9 @@ const Trending = styled.div`
     letter-spacing: 0.05em;
     color: #ffffff;
     cursor: pointer;
+  }
+
+  @media (max-width: 1200px) { 
+    display: none; 
   }
 `;

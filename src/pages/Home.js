@@ -16,6 +16,7 @@ import circle from '../assets/images/Vector.png';
 import useInterval from 'use-interval';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import RenderShareModal from '../components/ShareModal';
+import TrendingTopics from '../components/Trending';
 
 export default function Home() {
   const [url, setUrl] = useState('');
@@ -160,7 +161,9 @@ export default function Home() {
         att={att}
         setAtt={setAtt}
       />
-
+      
+      <TrendingTopics/>
+      
       <Mainline mobile={windowWidth <= 375 ? true : false}>
         {windowWidth > 375 ? (
           <></>
