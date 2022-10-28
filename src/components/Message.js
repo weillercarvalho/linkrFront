@@ -54,8 +54,10 @@ export default function RenderMessage({
       console.log(hash.data);
       if(hash.data.length < 1){
         return;
-      }else 
-      return navigate(`/hashtag/${hash.data[0].id}`)
+      }
+      navigate(`/hashtag/${hash.data[0].id}`)
+      window.location.reload();
+      //setAtt(!att);
     }catch(err){
       console.log(err.message);
       alert("problema")

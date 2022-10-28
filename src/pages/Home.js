@@ -162,7 +162,10 @@ export default function Home() {
         setAtt={setAtt}
       />
       
-      <TrendingTopics/>
+      <TrendingTopics
+        setAtt={setAtt}
+        att={att}
+      />
       
       <Mainline mobile={windowWidth <= 375 ? true : false}>
         {windowWidth > 375 ? (
